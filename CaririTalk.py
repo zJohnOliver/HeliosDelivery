@@ -25,6 +25,11 @@ def login():
 
    return render_template("login.html")
 
+@app.route("/estoque")
+def estoque():
+   
+   return render_template("estoque.html")
+
 @app.route("/logout")
 def logout():
    session["name"] = None
