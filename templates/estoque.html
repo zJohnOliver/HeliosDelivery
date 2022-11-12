@@ -1,156 +1,32 @@
-<!DOCTYPE html>
-<html lang="pt-br">
-<meta charset="UTF-8">
-<title>Estoque</title>
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
-<style>
-    *{
-    margin: 0%;
-    padding: 0%;
+{%extends "layout.html"%}
 
-}
+{%block title%} Estoque {%endblock%}
 
-
-.principal{
-    position: absolute;
-    width: 100%;
-    height: auto;
-    background-color: lightslategray;
-    background-image: linear-gradient(lightslategray, rgb(80, 80, 80), rgb(49, 49, 49));
-    
-}
-
-.logo{
-    position: relative;
-    width: 95px;
-    height: 55px;
-    margin-left: 10px;
-    margin-top: 10px;
-    float: left;
-}
-
-.sair{
-    position: relative;
-    width: 35px;
-    height: 35px;
-    margin-right: 20px;
-    margin-top: 20px; 
-    float: right    ;
-}
-.carrinho{
-    position: relative;
-    width: 35px;
-    height: 35px;
-    margin-right: 20px;
-    margin-top: 20px; 
-    float: right    ;
-}
-
-header{
-    position: relative;
-    background-image: radial-gradient(rgb(112, 3, 3), rgb(78, 1, 1));
-    width: 100%;
-    height: 80px;
-    border-bottom: 4px solid black;
-    box-shadow: 1px 3px 3px black;
-}
-
-.menu{
-    position: relative;
-    text-align: center;
-    width: 900px;
-    height: 800px;
-    color: rgb(0, 0, 0);
-    font-size: 18px;
-    margin-left: 200px;
-    margin-top: 50px;
-}
-
-table {
-    width: 100%;
-    border-radius: 20px;
-    
-}
-
-th {
-    height: 50px;
-    
-    background-color: rgb(78, 1, 1);
-    color: white   ;
-}
-
-tr, td {
-    padding: 15px;
-    text-align: left;
-    border-bottom: 1px solid black;
-}
-
-tr{
-    background-color: rgb(255, 255, 255);
-}
-
-.excluir{
-    width: 20px;
-    height: 20px;
-    margin-left: 15px;
-}
-
-.editar{
-    width: 20px;
-    height: 20px;
-    margin-left: 15px;
-}
-
-tr:hover {background-color: #a09e9e}
-
-
-h1{
-    font-size: 64px;
-}
-
-</style>
-<script src=""></script>
-
-
-<body>
-    <div class="principal"style="max-width:100%;height:auto;">
-        
-        <header>
-            <img src="{{ url_for('static', filename='sair.png') }}" class = "sair">
-            <img src="{{ url_for('static', filename='carrinho.png') }}" class = "carrinho">
-            <img src="{{ url_for('static', filename='logo.png') }}" class = "logo">
-        </header>
-        <div class="menu" style="max-width:100%">
-            <h1>Estoque</h1>
-            <hr>
-            <table class="table">
-                <thead>
-                  <tr>
-                    <th scope="col">Marca</th>
-                    <th scope="col">Volume</th>
-                    <th scope="col">Quantidade</th>
-                    <th scope="col">Preço</th>
-                    <th scope="col">Excluir</th>
-                    <th scope="col">Editar</th>
-                  </tr>
-                </thead>
-                <tbody>
-                    {% for row in db %}
-                        <tr>
-                            <td>{{ row["Marca"] }}</td>
-                            <td>{{ row["Volume"] }}</td>
-                            <td>{{ row["Quantidade"] }}</td>
-                            <td>{{ row["Preco"] }}</td>
-                            <td><a href=""><img class="excluir" src="{{ url_for('static', filename='excluir.png') }}"></a></td>
-                            <td><a href=""><img class="editar" src="{{ url_for('static', filename='editar.png') }}"></a></td>
-                        </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-        </div>   
-
-    </div>
-
-</body>
-</html>
+{%block body%}
+    <h1>Estoque</h1>
+    <hr>
+    <table class="table">
+        <thead>
+        <tr>
+            <th scope="col">Marca</th>
+            <th scope="col">Volume</th>
+            <th scope="col">Quantidade</th>
+            <th scope="col">Preço</th>
+            <th scope="col">Excluir</th>
+            <th scope="col">Editar</th>
+        </tr>
+        </thead>
+        <tbody>
+            {% for row in db %}
+                <tr>
+                    <td>{{ row[1] }}</td>
+                    <td>{{ row[2] }}</td>
+                    <td class="td">{{ row[3] }}</td>
+                    <td>{{ row[4] }}</td>
+                    <td><a href=""><img class="excluir" src="{{ url_for('static', filename='excluir.png') }}"></a></td>
+                    <td><a href=""><img class="editar" src="{{ url_for('static', filename='editar.png') }}"></a></td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{%endblock%}
