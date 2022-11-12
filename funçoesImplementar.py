@@ -1,4 +1,3 @@
-from random import randint, random
 import sqlite3
 
 con = sqlite3.connect("deposito.db")
@@ -55,7 +54,12 @@ def vendas(id):
         #con.commit()
         #x = 0
 
-
+def MostrarTabela():
+    #print('\nData in produtos table:')
+    con = sqlite3.connect("deposito.db")
+    cur = con.cursor()
+    data = cur.execute('''SELECT * FROM produtos''').fetchall()
+    return data
 
 
 
