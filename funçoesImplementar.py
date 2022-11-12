@@ -1,4 +1,3 @@
-from random import randint, random
 import sqlite3
 
 con = sqlite3.connect("deposito.db")
@@ -58,13 +57,12 @@ def Vendas(id):
         con.commit()
     
 
-def Montante():
-    montanteTotal = 0
-    montante = cur.execute("SELECT Quantidade,Preco FROM carrinho").fetchall()
-    print(montante[0][0])
-    for i in range(len(montante)):
-        montanteTotal += montante[i][0]*montante[i][1]
-    return montanteTotal
+def MostrarTabela():
+    #print('\nData in produtos table:')
+    con = sqlite3.connect("deposito.db")
+    cur = con.cursor()
+    data = cur.execute('''SELECT * FROM produtos''').fetchall()
+    return data
 
 def ConfirmarCompra():
     qtd = cur.execute("SELECT id,Quantidade FROM carrinho").fetchone()
@@ -73,13 +71,6 @@ def ConfirmarCompra():
         cur.execute("UPDATE produtos SET Quantidade = Quantidade - ? WHERE id = ?",(qtd[1], allIDS[i][0],))
         cur.execute("DELETE FROM carrinho WHERE id = ?", (allIDS[i][0],))
     con.commit()
-
-def MostrarTabela():
-    print('\nData in produtos table:')
-    data = cur.execute('''SELECT * FROM produtos''').fetchall()
-    print(data)
-    
-
 
 
 
