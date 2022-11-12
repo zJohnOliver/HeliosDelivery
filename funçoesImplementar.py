@@ -56,6 +56,13 @@ def Vendas(id):
         cur.execute("INSERT OR REPLACE INTO carrinho (id,Marca,Volume,Quantidade,Preco) VALUES (?,?,?,?,?)", (escolhas[0],escolhas[1],escolhas[2],quantidadeRetirar,escolhas[4]))
         con.commit()
     
+def Montante():
+    montanteTotal = 0
+    montante = cur.execute("SELECT Quantidade,Preco FROM carrinho").fetchall()
+    print(montante[0][0])
+    for i in range(len(montante)):
+        montanteTotal += montante[i][0]*montante[i][1]
+    return montanteTotal
 
 def MostrarTabela():
     #print('\nData in produtos table:')
@@ -71,6 +78,7 @@ def ConfirmarCompra():
         cur.execute("UPDATE produtos SET Quantidade = Quantidade - ? WHERE id = ?",(qtd[1], allIDS[i][0],))
         cur.execute("DELETE FROM carrinho WHERE id = ?", (allIDS[i][0],))
     con.commit()
+
 
 
 
