@@ -1,4 +1,5 @@
 import sqlite3
+from flask import render_template
 
 con = sqlite3.connect("deposito.db")
 cur = con.cursor()
@@ -18,6 +19,15 @@ def RegistrarProduto():
     """,(marca, volume, precoUnit, quantidade))
     con.commit()
 
+def RegistrarSite(marca, volume, quantidade, preco):
+    # Se o id já estiver cadastrado, não cadastrar
+    con = sqlite3.connect("deposito.db")
+    cur = con.cursor()
+    cur.execute("""INSERT INTO produtos (Marca, Volume, Quantidade, Preco) VALUES
+            (?,?,?,?)
+    """,(marca, volume, quantidade, preco))
+    con.commit()
+
 def  AtualizarDados(id):
     # quantidade | Apresentada no .frame
     # comprado |  Quantia a ser retirada da variável quantidade
@@ -33,11 +43,13 @@ def  AtualizarDados(id):
     """,(variavel, id))
     con.commit()
 
-def DeletarProduto(id):
+def DeletarProduto(marca):
+    con = sqlite3.connect("deposito.db")
+    cur = con.cursor()
     cur.execute("""
     DELETE FROM produtos
-    WHERE id = ?
-    """, (id,))
+    WHERE marca = ?
+    """, (marca,))
     con.commit()
 
 def vendas(id):
@@ -61,9 +73,20 @@ def MostrarTabela():
     data = cur.execute('''SELECT * FROM produtos''').fetchall()
     return data
 
+def erro(mensagem):
+    return render_template("erro.html", mensagem = mensagem)
 
+def Marcas():
+    con = sqlite3.connect("deposito.db")
+    cur = con.cursor()
+    marcas = cur.execute('''SELECT Marca FROM produtos GROUP BY Marca''').fetchall()
+    return marcas
 
-
+def id(marca):
+    con = sqlite3.connect("deposito.db")
+    cur = con.cursor()
+    id = cur.execute('''SELECT Id FROM produtos WHERE Marca = ?''', marca).fetchone()
+    return id
 
 # Registro de produtos
 # Registro de vendas

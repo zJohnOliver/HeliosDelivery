@@ -23,7 +23,7 @@
                     <td>{{ row[2] }}</td>
                     <td class="td">{{ row[3] }}</td>
                     <td>{{ row[4] }}</td>
-                    <td><a href=""><img class="excluir" src="{{ url_for('static', filename='excluir.png') }}"></a></td>
+                    <td><a href="/excluir"><img class="excluir" src="{{ url_for('static', filename='excluir.png') }}"></a></td>
                     <td><a href=""><img class="editar" src="{{ url_for('static', filename='editar.png') }}"></a></td>
                 </tr>
             {% endfor %}
