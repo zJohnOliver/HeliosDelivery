@@ -1,5 +1,7 @@
 {%extends "layout.html"%}
 
+{%block title%} Excluir {%endblock%}
+
 {%block body%}
     <h1>Excluir produto</h1>
     <form action="/excluir" method="post">
@@ -9,9 +11,6 @@
             {% endfor %}
         </select>
         <br>
-        <!--<div class="form-group">
-            <input autocomplete="off" autofocus class="form-control" name="shares" placeholder="Shares" type="number">
-        </div>-->
         <button class="botao" type="submit">Excluir</button>
     </form>
 {%endblock%}
