@@ -7,7 +7,7 @@ cursor = conn.cursor()
 
 def verificacao(email,senha):
 
-    conn = sqlite3.connect('produtos.db')
+    conn = sqlite3.connect('usuario.db')
     cursor = conn.cursor()
     
     verificacao = cursor.execute(f"""

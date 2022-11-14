@@ -2,7 +2,7 @@ import sqlite3
 from flask import Flask, redirect, render_template, request, session
 from flask_session import Session
 from funcaopessoas import verificacao
-from funcoes import MostrarTabela, DeletarProduto, Marcas, RegistrarSite
+from funcoes import MostrarTabela, DeletartProduto, Marcas, RegistrarSite, Carrin, id
 from auxiliares import login_required
 #conn = sqlite3.connect('produtos.db')
 #cursor = conn.cursor()
@@ -47,10 +47,7 @@ def excluir():
       return render_template("excluir.html", marcas = [row[0] for row in marcas])
    else:
       marca = request.form.get("marca")
-      DeletarProduto(marca)
-      #vol = request.form.get("marca")
-      #quantidade = request.form.get("marca")
-      #preco = request.form.get("marca")
+      DeletartProduto(id(marca))
    return redirect("/estoque")
 
 @app.route("/adicionar", methods=["GET", "POST"])
@@ -65,6 +62,17 @@ def adicionar():
       preco = request.form.get("preco")
       RegistrarSite(marca, vol, quantidade, preco)
       return redirect("/estoque")
+
+@app.route("/carrinho")
+@login_required
+def carrinho():
+   if request.method == "GET":
+      marcas = Marcas()
+      return render_template("carrinho.html", marcas = [row[0] for row in marcas])
+   else:
+      marca = request.form.ger("marca")
+      qtdRetirar = request.form.get("qtdretirar")
+      Carrin(marca, qtdRetirar)
 
 @app.route("/logout")
 def logout():

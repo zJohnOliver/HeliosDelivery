@@ -1,7 +1,6 @@
-from funçoesImplementar import MostrarTabela, Marcas, DeletarProduto, RegistrarProduto
+from funcoes import MostrarTabela, Marcas, DeletartProduto, RegistrarProduto
 
-#print(Marcas())
-#marca = input("Marca: ")
-#DeletarProduto(marca)
-#print(MostrarTabela())
-RegistrarProduto()
+print(Marcas())
+marca = input("Marca: ")
+DeletartProduto(id(marca))
+print(Marcas())
