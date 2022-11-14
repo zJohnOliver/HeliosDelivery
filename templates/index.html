@@ -1,8 +1,145 @@
-{%extends "layout.html"%}
+<!DOCTYPE html>
+<html lang="pt-br">
+<meta charset="UTF-8">
+<title>Tela Inicial</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
 
-{%block title%}Home{%endblock%}  
 
-{%block body%}
-    <h1> Bem-vindo, Usuário </h1>
-    <hr>
-{%endblock%}
+<style>
+    *{
+    margin: 0%;
+    padding: 0%;
+
+}
+
+
+.principal{
+    position: absolute;
+    width: 100%;
+    height: auto;
+    background-color: lightslategray;
+    background-image: linear-gradient(lightslategray, rgb(80, 80, 80), rgb(49, 49, 49));
+}
+
+.logo{
+    position: relative;
+    width: 95px;
+    height: 55px;
+    margin-left: 10px;
+    margin-top: 10px;
+    float: left;
+}
+
+.sair{
+    position: relative;
+    width: 35px;
+    height: 35px;
+    margin-right: 20px;
+    margin-top: 20px; 
+    float: right    ;
+}
+.carrinho{
+    position: relative;
+    width: 35px;
+    height: 35px;
+    margin-right: 20px;
+    margin-top: 20px; 
+    float: right    ;
+}
+
+header{
+    position: relative;
+    background-image: radial-gradient(rgb(112, 3, 3), rgb(78, 1, 1));
+    width: 100%;
+    height: 80px;
+    border-bottom: 4px solid black;
+    box-shadow: 1px 3px 3px black;
+}
+
+.menu{
+    position: relative;
+    align-items: center;
+    text-align: center;
+    width: 70%;
+    margin-left: 15%;
+    height: 800px;
+    padding-top: 30px;
+    font-size: 18px;
+    
+}
+
+.btCadastro{
+    position: relative;
+    width: 250px;
+    height: 300px;
+    border: solid black 3px;
+    float: left;
+    padding: 20px;
+    border-radius: 20px;
+    background-image: radial-gradient(rgb(112, 3, 3), rgb(78, 1, 1));
+    box-shadow: 3px 3px 3px black;
+    margin-left: 150px;
+    margin-top: 50px;
+}
+
+.btEstoque{
+    position: relative;
+    width: 250px;
+    height: 300px;
+    border: solid black 3px;
+    float: right;
+    padding: 20px;
+    border-radius: 20px;
+    background-image: radial-gradient(rgb(112, 3, 3), rgb(78, 1, 1));
+    box-shadow: 3px 3px 3px black;
+    margin-right: 150px;
+    margin-top: 50px;
+}
+
+.imgs{
+    width: 150px;
+    height: 150px;
+    margin-top: 10px;
+}
+
+h3{
+    color: white;
+    margin-top: 10px;
+}
+
+</style>
+<script src=""></script>
+
+
+<body>
+    <div class="principal">
+        
+        <header>
+            <a href=""><img src="{{ url_for('static', filename='sair.png') }}" class = "sair"></a>
+            <a href=""><img src="{{ url_for('static', filename='carrinho.png') }}" class = "carrinho"></a>
+            <a><img src="{{ url_for('static', filename='logo.png') }}" class = "logo"></a>
+           
+           
+        </header>
+        <div class="menu">
+
+            <h1>Bem-vindo! Usuário</h2>
+
+            <a href="adicionar"><div class="btCadastro">
+                <img class="imgs" src="{{ url_for('static', filename='bCadastrar.png') }}">
+                <h3>Cadastrar produto</h3>
+            </div></a>
+
+            <a href="/estoque"><div class="btEstoque">
+                <img class="imgs" src="{{ url_for('static', filename='estoque.png') }}">
+                <h3>Estoque</h3>
+            </div></a>
+
+            </div>
+            
+        </div>    
+    </div>
+
+</body>
+</html>
