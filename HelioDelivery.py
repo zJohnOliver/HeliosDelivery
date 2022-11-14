@@ -2,10 +2,8 @@ import sqlite3
 from flask import Flask, redirect, render_template, request, session
 from flask_session import Session
 from funcaopessoas import verificacao
-from funcoes import MostrarTabela, DeletartProduto, Marcas, RegistrarSite, Carrin, id
+import funcoesSQL
 from auxiliares import login_required
-#conn = sqlite3.connect('produtos.db')
-#cursor = conn.cursor()
 
 app = Flask(__name__)
 app.config["SESSION_PERMANENT"] = False
@@ -31,23 +29,30 @@ def login():
       if verificacao(session["name"], session["senha"]):
          return redirect("/")
    return render_template("login.html")
-      
 
 @app.route("/estoque")
 @login_required
 def estoque():
-   db = MostrarTabela()
-   return render_template("estoque.html", db = db)
+   con = sqlite3.connect("deposit.db")
+   cur = con.cursor()
+   db = funcoesSQL.MostrarTabela()
+   cur.close()
+   con.close()
+   return render_template("estoque.html", db = db, )
 
 @app.route("/excluir", methods=["GET", "POST"])
 @login_required
 def excluir():
+   con = sqlite3.connect("deposit.db")
+   cur = con.cursor()
    if request.method == "GET":
-      marcas = Marcas()
+      marcas = funcoesSQL.Marcas()
       return render_template("excluir.html", marcas = [row[0] for row in marcas])
    else:
       marca = request.form.get("marca")
-      DeletartProduto(id(marca))
+      funcoesSQL.DeletarProduto(marca)
+      cur.close()
+      con.close()
    return redirect("/estoque")
 
 @app.route("/adicionar", methods=["GET", "POST"])
@@ -60,19 +65,19 @@ def adicionar():
       vol = request.form.get("volume")
       quantidade = request.form.get("quantidade")
       preco = request.form.get("preco")
-      RegistrarSite(marca, vol, quantidade, preco)
+      funcoesSQL.RegistrarSite(marca, vol, quantidade, preco)
       return redirect("/estoque")
 
 @app.route("/carrinho")
 @login_required
 def carrinho():
    if request.method == "GET":
-      marcas = Marcas()
+      marcas = funcoesSQL.Marcas()
       return render_template("carrinho.html", marcas = [row[0] for row in marcas])
    else:
       marca = request.form.ger("marca")
       qtdRetirar = request.form.get("qtdretirar")
-      Carrin(marca, qtdRetirar)
+      funcoesSQL.Carrin(marca, qtdRetirar)
 
 @app.route("/logout")
 def logout():

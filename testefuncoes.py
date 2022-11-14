@@ -1,4 +1,4 @@
-from funcoes import MostrarTabela, Marcas, DeletartProduto, RegistrarProduto
+from funcoesSQL import MostrarTabela, Marcas, DeletartProduto, RegistrarProduto
 
 print(Marcas())
 marca = input("Marca: ")

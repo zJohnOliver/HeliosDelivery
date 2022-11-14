@@ -2,7 +2,7 @@ import sqlite3
 from flask import Flask, redirect, render_template, request, session
 from flask_session import Session
 from funcaopessoas import verificacao
-from funcoes import MostrarTabela, DeletarProduto, Marcas, RegistrarSite
+from funcoesSQL import MostrarTabela, DeletarProduto, Marcas, RegistrarSite
 from auxiliares import login_required
 #conn = sqlite3.connect('produtos.db')
 #cursor = conn.cursor()

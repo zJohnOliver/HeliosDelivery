@@ -1,15 +1,22 @@
 import sqlite3
 from flask import render_template
 
-con = sqlite3.connect("deposito.db")
-cur = con.cursor()
+def cur():
+    con = sqlite3.connect("deposit.db")
+    cur = con.cursor()
+    return cur
 
-cur.execute("CREATE TABLE IF NOT EXISTS produtos(id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, Marca TEXT, Volume TEXT, Quantidade INTEGER, Preco REAL)")
+#con = sqlite3.connect("deposit.db")
+#cur = con.cursor()
 
-res = cur.execute("SELECT name FROM sqlite_master")
+#cur.execute("CREATE TABLE IF NOT EXISTS produtos(id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, Marca TEXT, Volume TEXT, Quantidade INTEGER, Preco REAL)")
+
+#res = cur.execute("SELECT name FROM sqlite_master")
 
 def RegistrarProduto():
     # Se o id já estiver cadastrado, não cadastrar
+    con = sqlite3.connect("deposit.db")
+    cur = con.cursor()
     marca = str(input("Marca: ")).capitalize()
     volume = float(input("Volume: "))
     quantidade = int(input("Quantidade: "))
@@ -21,14 +28,19 @@ def RegistrarProduto():
 
 def RegistrarSite(marca, volume, quantidade, preco):
     # Se o id já estiver cadastrado, não cadastrar
-    con = sqlite3.connect("deposito.db")
+    con = sqlite3.connect("deposit.db")
     cur = con.cursor()
     cur.execute("""INSERT INTO produtos (Marca, Volume, Quantidade, Preco) VALUES
             (?,?,?,?)
     """,(marca, volume, quantidade, preco))
     con.commit()
+    cur.close()
+    con.close()
+    
 
 def  AtualizarDados(id):
+    con = sqlite3.connect("deposit.db")
+    cur = con.cursor()
     # quantidade | Apresentada no .frame
     # comprado |  Quantia a ser retirada da variável quantidade
     # quantidade -= comprado
@@ -44,16 +56,18 @@ def  AtualizarDados(id):
     con.commit()
 
 def DeletarProduto(marca):
-    con = sqlite3.connect("deposito.db")
+    con = sqlite3.connect("deposit.db")
     cur = con.cursor()
     cur.execute("""
     DELETE FROM produtos
     WHERE Marca = ?
     """, (marca,))
     con.commit()
+    cur.close()
+    con.close()
 
 def DeletartProduto(id):
-    con = sqlite3.connect("deposito.db")
+    con = sqlite3.connect("deposit.db")
     cur = con.cursor()
     cur.execute("""
     DELETE FROM produtos
@@ -61,8 +75,9 @@ def DeletartProduto(id):
     """, (id,))
     con.commit()
 
-
 def Vendas(id):
+    con = sqlite3.connect("deposit.db")
+    cur = con.cursor()
     cur.execute("CREATE TABLE IF NOT EXISTS carrinho(id INTEGER NOT NULL PRIMARY KEY, Marca TEXT, Volume TEXT, Quantidade INTEGER, Preco REAL)")
     
     quantidadeAtual = cur.execute("SELECT Quantidade FROM produtos WHERE id = ?",(id,)).fetchone()
@@ -79,6 +94,8 @@ def Vendas(id):
         con.commit()
 
 def Carrin(marca):
+    con = sqlite3.connect("deposit.db")
+    cur = con.cursor()
     cur.execute("CREATE TABLE IF NOT EXISTS carrinho(id INTEGER NOT NULL PRIMARY KEY, Marca TEXT, Volume TEXT, Quantidade INTEGER, Preco REAL)")
     
     quantidadeAtual = cur.execute("SELECT Quantidade FROM produtos WHERE id = ?",(id,)).fetchone()
@@ -103,17 +120,20 @@ def Montante():
     return montanteTotal
 
 def MostrarTabela():
-    #print('\nData in produtos table:')
-    con = sqlite3.connect("deposito.db")
+    con = sqlite3.connect("deposit.db")
     cur = con.cursor()
+    #print('\nData in produtos table:')
     data = cur.execute('''SELECT * FROM produtos''').fetchall()
     cur.close()
+    con.close()
     return data
 
 def erro(mensagem):
     return render_template("erro.html", mensagem = mensagem)
 
 def ConfirmarCompra():
+    con = sqlite3.connect("deposit.db")
+    cur = con.cursor()
     qtd = cur.execute("SELECT id,Quantidade FROM carrinho").fetchone()
     allIDS = cur.execute("SELECT id FROM carrinho").fetchall()
     for i in range(len(allIDS)):
@@ -122,28 +142,30 @@ def ConfirmarCompra():
     con.commit()
 
 def Marcas():
-    con = sqlite3.connect("deposito.db")
+    con = sqlite3.connect("deposit.db")
     cur = con.cursor()
     marcas = cur.execute('''SELECT Marca FROM produtos GROUP BY Marca''').fetchall()
     cur.close()
+    con.close()
     return marcas
 
 def id(marca):
-    con = sqlite3.connect("deposito.db")
+    con = sqlite3.connect("deposit.db")
     cur = con.cursor()
     id = cur.execute('''SELECT id FROM produtos WHERE Marca = ?''', (marca,)).fetchone()
     cur.close()
+    con.close()
     return id[0]
 
 def Quantidade(marca):
-    con = sqlite3.connect("deposito.db")
+    con = sqlite3.connect("deposit.db")
     cur = con.cursor()
     quant = cur.execute('''SELECT Quantidade FROM produtos WHERE Marca = ? GROUP BY Quantidade''', (marca,)).fetchall()
     cur.close()
+    con.close()
     return quant
 
-DeletartProduto(2)
-Marcas()
+   
 
 # Registro de produtos
 # Registro de vendas
