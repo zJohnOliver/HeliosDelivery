@@ -7,23 +7,19 @@
 <link href="/static/style.css/" rel="stylesheet">
 
 
-<script src=""></script>
-
-
 <body>
-    <div class="principal" style="max-width:100%;height:auto;">
-        
+    <div class="principal">
         <header>
             <a href="/logout"><img src="{{ url_for('static', filename='sair.png') }}" class = "sair"></a>
             <a href="/carrinho"><img src="{{ url_for('static', filename='carrinho.png') }}" class = "carrinho"></a>
-            <a href="/estoque" class="navegacao">Estoque</a>
-            <a href="/excluir" class="navegacao">Remover</a>
-            <a href="/adicionar" class="navegacao">Adicionar</a>
-            <img src="{{ url_for('static', filename='logo.png') }}" class = "logo">
+            <a><img src="{{ url_for('static', filename='logo.png') }}" class = "logo"></a>
+        
+            
+            
         </header>
-        <div class="menu" style="max-width:100%">
+        <div class="menu">
             {%block body%} {%endblock%}
-        </div>    
+        </div>
     </div>
 
 </body>

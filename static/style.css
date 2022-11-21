@@ -4,19 +4,18 @@
 
 }
 
-
 .principal{
-    position: absolute;
+    position: relative;
     width: 100%;
-    height: 100%;
+    height: 100vh;
     background-color: lightslategray;
-    background-image: linear-gradient(rgb(146, 145, 145), rgb(80, 80, 80), rgb(49, 49, 49));
+    background-image: linear-gradient(lightslategray, rgb(80, 80, 80), rgb(49, 49, 49));
 }
 
 .logo{
     position: relative;
-    width: 110px;
-    height: 70px;
+    width: 65px;
+    height: 65px;
     margin-left: 10px;
     margin-top: 10px;
     float: left;
@@ -24,34 +23,71 @@
 
 .sair{
     position: relative;
-    width: 110px;
-    height: 70px;
-    margin-left: 10px;
-    margin-top: 10px; 
+    width: 35px;
+    height: 35px;
+    margin-right: 20px;
+    margin-top: 20px; 
+    float: right    ;
+}
+.carrinho{
+    position: relative;
+    width: 35px;
+    height: 35px;
+    margin-right: 20px;
+    margin-top: 20px; 
     float: right    ;
 }
 
-header{
-    position: relative;
-    background-image: radial-gradient(rgb(112, 3, 3), rgb(78, 1, 1));
-    width: 100%;
-    height: 100px;
-    border-bottom: 4px solid black;
-    box-shadow: 1px 3px 3px black;
-}
 
 .menu{
     position: relative;
+    align-items: center;
     text-align: center;
     width: 70%;
+    margin-left: 15%;
     height: 800px;
-    color: rgb(0, 0, 0);
-    padding-left: 15%;
+    padding-top: 30px;
     font-size: 18px;
+    
 }
 
-h1{
-    font-size: 64px;
+.btCadastro{
+    position: relative;
+    width: 250px;
+    height: 300px;
+    border: solid black 3px;
+    float: left;
+    padding: 20px;
+    border-radius: 20px;
+    background-image: radial-gradient(rgb(112, 3, 3), rgb(78, 1, 1));
+    box-shadow: 3px 3px 3px black;
+    margin-left: 150px;
+    margin-top: 50px;
+}
+
+.btEstoque{
+    position: relative;
+    width: 250px;
+    height: 300px;
+    border: solid black 3px;
+    float: right;
+    padding: 20px;
+    border-radius: 20px;
+    background-image: radial-gradient(rgb(112, 3, 3), rgb(78, 1, 1));
+    box-shadow: 3px 3px 3px black;
+    margin-right: 150px;
+    margin-top: 50px;
+}
+
+.imgs{
+    width: 150px;
+    height: 150px;
+    margin-top: 10px;
+}
+
+h3{
+    color: white;
+    margin-top: 10px;
 }
 
 table {
@@ -131,3 +167,13 @@ h1{
     padding-left: 15%;
     font-size: 24px;
 }
+
+header{
+    position: relative;
+    background-image: radial-gradient(rgb(112, 3, 3), rgb(78, 1, 1));
+    width: 100%;
+    height: 80px;
+    border-bottom: 4px solid black;
+    box-shadow: 1px 3px 3px black;
+}
+
