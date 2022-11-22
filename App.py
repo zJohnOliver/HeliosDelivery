@@ -2,7 +2,7 @@ import sqlite3
 from flask import Flask, redirect, render_template, request, session
 from flask_session import Session
 from funcaopessoas import verificacao
-from funcoesSQL import MostrarTabela, DeletarProduto, Marcas, RegistrarSite
+from funcoesSQL import MostrarTabela, DeletarProduto, Marcas, RegistrarSite, Montante
 from auxiliares import login_required
 #conn = sqlite3.connect('produtos.db')
 #cursor = conn.cursor()
@@ -36,7 +36,7 @@ def login():
 @app.route("/estoque")
 @login_required
 def estoque():
-   db = MostrarTabela()
+   db = MostrarTabela("produtos")
    return render_template("estoque.html", db = db)
 
 @app.route("/excluir", methods=["GET", "POST"])
@@ -66,10 +66,25 @@ def adicionar():
       RegistrarSite(marca, vol, quantidade, preco)
       return redirect("/estoque")
 
+
+@app.route("/atualizar")
+@login_required
+def atualizar():
+   return render_template("atualizar.html")
+
+
+@app.route("/carrinho")
+@login_required
+def carrinho():
+   db = MostrarTabela("carrinho")
+   total = Montante()
+   return render_template("carrinho.html", db = db, montante=total)
+
 @app.route("/logout")
 def logout():
    session["name"] = None
    return redirect("/")
+
 
 #ativar quando o site for ao Ar
 #if __name__ == "__main__":

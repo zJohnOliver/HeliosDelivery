@@ -4,15 +4,39 @@
 
 {%block body%}
     <h1>Carrin</h1>
-
-    <form action="/carrinho" method="post">
-        <select name="marca" placeholder="Marca" class="Campo">
-            {% for marca in marcas %}
-            <option value="{{ marca }}">{{ marca }}</option>
+    <hr>
+    <table class="table">
+        <thead>
+        <tr>
+            <th scope="col">Marca</th>
+            <th scope="col">Volume (ml)</th>
+            <th scope="col">Quantidade</th>
+            <th scope="col">Preço Unit.</th>
+            <th scope="col">Remover carrinho</th>
+        </tr>
+        </thead>
+        <tbody>
+            {% for row in db %}
+                <tr>
+                    <td>{{ row[1] }}</td>
+                    <td>{{ row[2] }}</td>
+                    <td class="td">{{ row[3] }}</td>
+                    <td>{{ row[4] }}</td>
+                    <td><a href="/excluir"><img class="btForm" src="{{ url_for('static', filename='excluir.png') }}"></a>
+                    <input type="number" placeholder="Quantidade" class="btInput" required>
+                    </td>
+                </tr>
             {% endfor %}
-        </select>
-        <input autocomplete="off" autofocus class="Campo" name="qtdretirar" placeholder="Quantidade a Retirar" type="text"><br>
-        <button class="botao" type="submit">Adicionar</button>
-    </form>
+        </tbody>
+        <tfoot>
+            <td></td>
+            <td></td>
+            <th scope="1">TOTAL</th>
+            <td scope="1">{{ montante }}</td>
+            <td scope="1"></td>
+        </tfoot>
+    </table>
+    <button class="botao" type="submit">Confirmar Compra</button>
+    <button class="botao" type="submit">Limpar Carrinho</button>
 
 {%endblock%}

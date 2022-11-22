@@ -9,11 +9,12 @@
         <thead>
         <tr>
             <th scope="col">Marca</th>
-            <th scope="col">Volume</th>
+            <th scope="col">Volume (ml)</th>
             <th scope="col">Quantidade</th>
             <th scope="col">Preço</th>
             <th scope="col">Excluir</th>
             <th scope="col">Editar</th>
+            <th scope="col">Add. carrinho</th>
         </tr>
         </thead>
         <tbody>
@@ -23,8 +24,11 @@
                     <td>{{ row[2] }}</td>
                     <td class="td">{{ row[3] }}</td>
                     <td>{{ row[4] }}</td>
-                    <td><a href="/excluir"><img class="excluir" src="{{ url_for('static', filename='excluir.png') }}"></a></td>
-                    <td><a href=""><img class="editar" src="{{ url_for('static', filename='editar.png') }}"></a></td>
+                    <td><a href="/excluir"><img class="btForm" src="{{ url_for('static', filename='excluir.png') }}"></a></td>
+                    <td><a href=""><img class="btForm" src="{{ url_for('static', filename='editar.png') }}"></a></td>
+                    <td><a href=""><img class="btForm" src="{{ url_for('static', filename='adicionar.png') }}"></a>
+                    <input type="number" placeholder="Quantidade" class="btInput">
+                    </td>
                 </tr>
             {% endfor %}
         </tbody>

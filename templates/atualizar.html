@@ -1,0 +1,18 @@
+{%extends "layout.html"%}
+{%block title%} Atualizar Produto {%endblock%}
+
+{%block body%}
+    <h1>Atualizar Produto</h1>
+    <form action="/atualizar" method="post">
+        
+        <input value="huehue" autofocus class="Campo" name="marca" placeholder="Marca" type="text" required><br>
+        <input value="huehue" autofocus class="Campo" name="volume" placeholder="Volume" type="text" required><br>
+        <input value="hueheu" autofocus class="Campo" name="quantidade" placeholder="Quantidade" type="text" required><br>
+        <input value="hueheu" autofocus class="Campo" name="preco" placeholder="Preco" type="text" required><br>
+        <!--<div class="form-group">
+            <input autocomplete="off" autofocus class="form-control" name="shares" placeholder="Shares" type="number">
+        </div>-->
+        <button class="botao" type="submit">Atualizar</button>
+    </form>
+
+{%endblock%}

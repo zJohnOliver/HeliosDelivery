@@ -32,7 +32,7 @@ def RegistrarSite(marca, volume, quantidade, preco):
     cur = con.cursor()
     cur.execute("""INSERT INTO produtos (Marca, Volume, Quantidade, Preco) VALUES
             (?,?,?,?)
-    """,(marca, volume, quantidade, preco))
+    """,(marca.upper(), volume, quantidade, preco))
     con.commit()
     cur.close()
     con.close()
@@ -66,15 +66,6 @@ def DeletarProduto(marca):
     cur.close()
     con.close()
 
-def DeletartProduto(id):
-    con = sqlite3.connect("deposit.db")
-    cur = con.cursor()
-    cur.execute("""
-    DELETE FROM produtos
-    WHERE id = ?
-    """, (id,))
-    con.commit()
-
 def Vendas(id):
     con = sqlite3.connect("deposit.db")
     cur = con.cursor()
@@ -93,37 +84,22 @@ def Vendas(id):
         cur.execute("INSERT OR REPLACE INTO carrinho (id,Marca,Volume,Quantidade,Preco) VALUES (?,?,?,?,?)", (escolhas[0],escolhas[1],escolhas[2],quantidadeRetirar,escolhas[4]))
         con.commit()
 
-def Carrin(marca):
+def Montante():
     con = sqlite3.connect("deposit.db")
     cur = con.cursor()
-    cur.execute("CREATE TABLE IF NOT EXISTS carrinho(id INTEGER NOT NULL PRIMARY KEY, Marca TEXT, Volume TEXT, Quantidade INTEGER, Preco REAL)")
-    
-    quantidadeAtual = cur.execute("SELECT Quantidade FROM produtos WHERE id = ?",(id,)).fetchone()
-    quantidadeRetirar = int(input("Quantidade a retirar: "))
-    qtd = (quantidadeAtual[0] - quantidadeRetirar)
-    while qtd < 0:
-        print(qtd)
-        quantidadeRetirar = int(input("Quantidade requisitada maior do que a em estoque: "))
-        qtd = (quantidadeAtual[0] - quantidadeRetirar)
-        
-    if quantidadeRetirar > 0:
-        escolhas = cur.execute("SELECT id,Marca,Volume,Quantidade,Preco FROM produtos WHERE id = ?",(id,)).fetchone()
-        cur.execute("INSERT OR REPLACE INTO carrinho (id,Marca,Volume,Quantidade,Preco) VALUES (?,?,?,?,?)", (escolhas[0],escolhas[1],escolhas[2],quantidadeRetirar,escolhas[4]))
-        con.commit()
-    
-def Montante():
     montanteTotal = 0
     montante = cur.execute("SELECT Quantidade,Preco FROM carrinho").fetchall()
-    print(montante[0][0])
     for i in range(len(montante)):
         montanteTotal += montante[i][0]*montante[i][1]
+    cur.close()
+    con.close()
     return montanteTotal
 
-def MostrarTabela():
+def MostrarTabela(tabela):
     con = sqlite3.connect("deposit.db")
     cur = con.cursor()
     #print('\nData in produtos table:')
-    data = cur.execute('''SELECT * FROM produtos''').fetchall()
+    data = cur.execute("SELECT * FROM '%s' "%tabela).fetchall()
     cur.close()
     con.close()
     return data
@@ -138,6 +114,9 @@ def ConfirmarCompra():
     allIDS = cur.execute("SELECT id FROM carrinho").fetchall()
     for i in range(len(allIDS)):
         cur.execute("UPDATE produtos SET Quantidade = Quantidade - ? WHERE id = ?",(qtd[1], allIDS[i][0],))
+        cur.execute("CREATE TABLE IF NOT EXISTS vendasmensais(id INTEGER NOT NULL PRIMARY KEY, Marca TEXT, Volume TEXT, Quantidade INTEGER, Preco REAL)")
+        vendas = cur.execute("SELECT Marca,Volume,Quantidade,Preco FROM carrinho WHERE id = ?", (allIDS[i][0],)).fetchone()
+        cur.execute("INSERT INTO vendasmensais(Marca,Volume,Quantidade,Preco) VALUES (?,?,?,?)", (vendas[0],vendas[1],vendas[2],vendas[3]))
         cur.execute("DELETE FROM carrinho WHERE id = ?", (allIDS[i][0],))
     con.commit()
 
@@ -164,8 +143,6 @@ def Quantidade(marca):
     cur.close()
     con.close()
     return quant
-
-   
 
 # Registro de produtos
 # Registro de vendas
