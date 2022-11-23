@@ -21,6 +21,7 @@ def index():
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
+   name = request.form.get("name")
    session.clear()
 
    if request.method == "GET":
@@ -28,8 +29,9 @@ def login():
    else:
       session["name"] = request.form.get("name")
       session["senha"] = request.form.get("senha")
+      
       if verificacao(session["name"], session["senha"]):
-         return redirect("/")
+         return render_template("/index.html", nome = name)
    return render_template("login.html")
       
 

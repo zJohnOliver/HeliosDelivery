@@ -1,8 +1,8 @@
 {%extends "layout.html"%}
 {%block title%} Tela Inicial {%endblock%}
 
-{%block body%}
-    <h1>Bem-vindo! Usuário</h2>
+{%block body%} 
+    <h1>Bem-vindo! "{{ nome }}"</h2>
 
     <a href="adicionar"><div class="btCadastro">
         <img class="imgs" src="{{ url_for('static', filename='bCadastrar.png') }}">
