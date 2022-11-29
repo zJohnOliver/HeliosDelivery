@@ -2,7 +2,7 @@
 {%block title%} Tela Inicial {%endblock%}
 
 {%block body%} 
-    <h1>Bem-vindo! "{{ nome }}"</h2>
+    <h1>Bem-vindo! {{ nome }}</h2>
 
     <a href="adicionar"><div class="btCadastro">
         <img class="imgs" src="{{ url_for('static', filename='bCadastrar.png') }}">

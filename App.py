@@ -41,15 +41,14 @@ def estoque():
    db = MostrarTabela("produtos")
    return render_template("estoque.html", db = db)
 
-@app.route("/excluir", methods=["GET", "POST"])
+@app.route("/excluir/<id_produto>", methods=["GET", "POST"])
 @login_required
-def excluir():
+def excluir(id_produto):
    if request.method == "GET":
-      marcas = Marcas()
-      return render_template("excluir.html", marcas = [row[0] for row in marcas])
-   else:
-      marca = request.form.get("marca")
-      DeletarProduto(marca)
+      DeletarProduto(id_produto)
+   #else:
+      #marca = request.form.get("marca")
+      #DeletarProduto(id_produto)
       #vol = request.form.get("marca")
       #quantidade = request.form.get("marca")
       #preco = request.form.get("marca")

@@ -55,13 +55,13 @@ def  AtualizarDados(id):
     """,(variavel, id))
     con.commit()
 
-def DeletarProduto(marca):
+def DeletarProduto(id):
     con = sqlite3.connect("deposit.db")
     cur = con.cursor()
     cur.execute("""
     DELETE FROM produtos
-    WHERE Marca = ?
-    """, (marca,))
+    WHERE id = ?
+    """, (id,))
     con.commit()
     cur.close()
     con.close()
