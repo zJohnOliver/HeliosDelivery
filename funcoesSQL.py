@@ -108,15 +108,29 @@ def erro(mensagem):
     return render_template("erro.html", mensagem = mensagem)
 
 def ConfirmarCompra():
+    import datetime
+    x = datetime.datetime.now() 
     con = sqlite3.connect("deposit.db")
     cur = con.cursor()
     qtd = cur.execute("SELECT id,Quantidade FROM carrinho").fetchone()
     allIDS = cur.execute("SELECT id FROM carrinho").fetchall()
     for i in range(len(allIDS)):
         cur.execute("UPDATE produtos SET Quantidade = Quantidade - ? WHERE id = ?",(qtd[1], allIDS[i][0],))
-        cur.execute("CREATE TABLE IF NOT EXISTS vendasmensais(id INTEGER NOT NULL PRIMARY KEY, Marca TEXT, Volume TEXT, Quantidade INTEGER, Preco REAL)")
-        vendas = cur.execute("SELECT Marca,Volume,Quantidade,Preco FROM carrinho WHERE id = ?", (allIDS[i][0],)).fetchone()
-        cur.execute("INSERT INTO vendasmensais(Marca,Volume,Quantidade,Preco) VALUES (?,?,?,?)", (vendas[0],vendas[1],vendas[2],vendas[3]))
+        cur.execute("CREATE TABLE IF NOT EXISTS vendasmensais (iddata TEXT PRIMARY KEY , Mes TEXT NOT NULL, id INTEGER NOT NULL, Marca TEXT, Volume TEXT, Quantidade INTEGER, PrecoUnit REAL, PrecoTotal REAL)")
+        vendas = cur.execute("SELECT id,Marca,Volume,Quantidade,Preco FROM carrinho WHERE id = ?", (allIDS[i][0],)).fetchone()
+
+        data = (f"{x.year}-{x.month}")
+        mes = x.strftime("%m")
+        iddata = (f"{x.year}{mes}{vendas[0]}")
+        
+        precoT = vendas[3]*vendas[4]
+
+        try:
+            cur.execute("INSERT INTO vendasmensais (iddata, Mes, id,Marca,Volume,Quantidade,PrecoUnit,PrecoTotal) VALUES (?,?,?,?,?,?,?,?)", (iddata, data, vendas[0], vendas[1], vendas[2], vendas[3], vendas[4], precoT))
+
+        except sqlite3.IntegrityError as error:
+            cur.execute("UPDATE vendasmensais SET Quantidade = Quantidade + ?, PrecoUnit = ?, PrecoTotal = PrecoTotal + ? WHERE iddata = ? ", (vendas[3], vendas[4], precoT, iddata))
+            
         cur.execute("DELETE FROM carrinho WHERE id = ?", (allIDS[i][0],))
     con.commit()
 
