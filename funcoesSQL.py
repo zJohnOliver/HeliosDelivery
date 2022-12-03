@@ -7,7 +7,7 @@ def cur():
     con = sqlite3.connect("deposit.db")
     cur = con.cursor()
     return cur
-    
+
 #con = sqlite3.connect("deposit.db")
 #cur = con.cursor()
 
@@ -138,8 +138,10 @@ def Montante():
     return montanteTotal
 
 def Desconto(MontanteTotal, tipo, desconto):
+
     if tipo == 1:
         MontanteTotal - MontanteTotal*desconto/100
+        
     else:
         MontanteTotal - desconto
 
