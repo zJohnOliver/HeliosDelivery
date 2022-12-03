@@ -79,6 +79,15 @@ def MostrarTabela(tabela):
     con.close()
     return data
 
+def ConversorMes(iddata):
+    meses = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro']
+    con = sqlite3.connect("deposit.db")
+    cur = con.cursor()
+    anoMes = cur.execute("SELECT Mes FROM vendasmensais WHERE iddata = ?", (iddata))
+    index = anoMes[5:7]
+
+    return meses[int(index)-1]
+
 #--------------------------------------------------------ÁREA DE VENDA------------------------------------------------------------------------------#
 
 def Vendas(id):
@@ -86,7 +95,7 @@ def Vendas(id):
     cur = con.cursor()
     cur.execute("CREATE TABLE IF NOT EXISTS carrinho(id INTEGER NOT NULL PRIMARY KEY, Marca TEXT, Volume TEXT, Quantidade INTEGER, Preco REAL)")
     
-    quantidadeAtual = cur.execute("SELECT Quantidade FROM produtos WHERE id = ?",(id,)).fetchone()
+    quantidadeAtual = cur.execute("SELECT Quantidade FROM produtos WHERE id = ?" ,(id, )).fetchone()
     quantidadeRetirar = int(input("Quantidade a retirar: "))
     qtd = (quantidadeAtual[0] - quantidadeRetirar)
     while qtd < 0:
@@ -95,8 +104,8 @@ def Vendas(id):
         qtd = (quantidadeAtual[0] - quantidadeRetirar)
         
     if quantidadeRetirar > 0:
-        escolhas = cur.execute("SELECT id,Marca,Volume,Quantidade,Preco FROM produtos WHERE id = ?",(id,)).fetchone()
-        cur.execute("INSERT OR REPLACE INTO carrinho (id,Marca,Volume,Quantidade,Preco) VALUES (?,?,?,?,?)", (escolhas[0],escolhas[1],escolhas[2],quantidadeRetirar,escolhas[4]))
+        escolhas = cur.execute("SELECT id,Marca,Volume,Quantidade,Preco FROM produtos WHERE id = ?",(id, )).fetchone()
+        cur.execute("INSERT OR REPLACE INTO carrinho (id,Marca,Volume,Quantidade,Preco) VALUES (?, ?, ?, ?, ?)", (escolhas[0], escolhas[1], escolhas[2], quantidadeRetirar, escolhas[4]))
         con.commit()
 
 def ConfirmarCompra():
@@ -107,23 +116,26 @@ def ConfirmarCompra():
     qtd = cur.execute("SELECT id,Quantidade FROM carrinho").fetchone()
     allIDS = cur.execute("SELECT id FROM carrinho").fetchall()
     for i in range(len(allIDS)):
-        cur.execute("UPDATE produtos SET Quantidade = Quantidade - ? WHERE id = ?",(qtd[1], allIDS[i][0],))
+        cur.execute("UPDATE produtos SET Quantidade = Quantidade - ? WHERE id = ?",(qtd[1], allIDS[i][0], ))
         cur.execute("CREATE TABLE IF NOT EXISTS vendasmensais (iddata TEXT PRIMARY KEY , Mes TEXT NOT NULL, id INTEGER NOT NULL, Marca TEXT, Volume TEXT, Quantidade INTEGER, PrecoUnit REAL, PrecoTotal REAL)")
-        vendas = cur.execute("SELECT id,Marca,Volume,Quantidade,Preco FROM carrinho WHERE id = ?", (allIDS[i][0],)).fetchone()
+        vendas = cur.execute("SELECT id,Marca,Volume,Quantidade,Preco FROM carrinho WHERE id = ?", (allIDS[i][0], )).fetchone()
 
-        data = (f"{x.year}-{x.month}")
-        mes = x.strftime("%m")
-        iddata = (f"{x.year}{mes}{vendas[0]}")
+        mes = x.strftime("%m") #<- mês com "0" (01, 02, 03...)
+
+        data = (f"{x.year}-{mes}") #<- Ano e mês
+
         
-        precoT = vendas[3]*vendas[4]
+        iddata = (f"{x.year}{mes}{vendas[0]}") #<- Criando um id junto com a data para permitir repetições com meses diferentes na mesma tabela 
+        
+        precoT = vendas[3] * vendas[4] #<- Preço total da compra para o a tabela de registro de vendas
 
         try:
-            cur.execute("INSERT INTO vendasmensais (iddata, Mes, id,Marca,Volume,Quantidade,PrecoUnit,PrecoTotal) VALUES (?,?,?,?,?,?,?,?)", (iddata, data, vendas[0], vendas[1], vendas[2], vendas[3], vendas[4], precoT))
+            cur.execute("INSERT INTO vendasmensais (iddata, Mes, id,Marca,Volume,Quantidade,PrecoUnit,PrecoTotal) VALUES (?, ?, ?, ?, ?, ?, ?, ?)", (iddata, data, vendas[0], vendas[1], vendas[2], vendas[3], vendas[4], precoT))
 
         except sqlite3.IntegrityError as error:
             cur.execute("UPDATE vendasmensais SET Quantidade = Quantidade + ?, PrecoUnit = ?, PrecoTotal = PrecoTotal + ? WHERE iddata = ? ", (vendas[3], vendas[4], precoT, iddata))
             
-        cur.execute("DELETE FROM carrinho WHERE id = ?", (allIDS[i][0],))
+        cur.execute("DELETE FROM carrinho WHERE id = ?", (allIDS[i][0], ))
     con.commit()
 
 def Montante():
@@ -132,18 +144,18 @@ def Montante():
     montanteTotal = 0
     montante = cur.execute("SELECT Quantidade,Preco FROM carrinho").fetchall()
     for i in range(len(montante)):
-        montanteTotal += montante[i][0]*montante[i][1]
+        montanteTotal += montante[i][0] * montante[i][1]
     cur.close()
     con.close()
     return montanteTotal
 
-def Desconto(MontanteTotal, tipo, desconto):
+def Desconto(valor, tipo, desconto):
 
     if tipo == 1:
-        MontanteTotal - MontanteTotal*desconto/100
+        return valor - valor*(desconto/100)
         
     else:
-        MontanteTotal - desconto
+        return valor - desconto
 
 #--------------------------------------------------------NICOLAS QUE FEZ------------------------------------------------------------------------------#
 
