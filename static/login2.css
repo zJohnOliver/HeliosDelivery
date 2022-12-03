@@ -1,0 +1,148 @@
+*{
+    margin: 0%;
+    padding: 0%;
+
+}
+
+
+.principal{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: lightslategray;
+    background-image: linear-gradient(lightslategray, rgb(80, 80, 80), rgb(49, 49, 49));
+
+
+}
+
+.logo{
+    position: relative;
+    width: 60px;
+    height: 60px;
+    margin-left: 10px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    float: left;
+}
+
+.sair{
+    position: relative;
+    width: 35px;
+    height: 35px;
+    margin-right: 20px;
+    margin-top: 20px; 
+    float: right    ;
+}
+.carrinho{
+    position: relative;
+    width: 35px;
+    height: 35px;
+    margin-right: 20px;
+    margin-top: 20px; 
+    float: right    ;
+}
+
+header{
+    position: relative;
+    background-image: radial-gradient(rgb(112, 3, 3), rgb(78, 1, 1));
+    width: 100%;
+    height: 80px;
+    border-bottom: 4px solid black;
+    box-shadow: 1px 3px 3px black;
+}
+
+.menu{
+    width: 70%;
+    height: 800px;
+    padding-top: 30px;
+    font-size: 18px;
+    
+}
+
+
+.entradas{
+    position: relative;
+    width: 300px;
+    height: 50px;
+    margin-left: 20px;
+    margin-top: 30px;
+    font-size: 20px;
+    border-radius: 10px;
+}
+
+.entrar{
+    position: relative;
+    width: 300px;
+    height: 50px;
+    margin-left: 20px;
+    margin-top: 30px;
+    border-radius: 10px;
+    font-size: 20px;
+    border: 2px solid black;
+    color: white;
+    font-weight: bold;
+    background-image: radial-gradient(rgb(48, 47, 47), rgb(60, 58, 58));
+}
+
+.imgs{
+    width: 150px;
+    height: 150px;
+    margin-top: 10px;
+    margin-left: 30px;
+}
+
+h3{
+    font-size: 2rem;
+    color: white;
+    padding-top: 10px;
+    text-decoration: none;
+}
+
+a{
+    text-decoration: none;
+}
+
+#blog{
+    margin-top: 80px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    padding: 0px;
+    font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif, 'Times New Roman', Times, serif;
+}
+
+.postBlog{
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.blogBox{
+    position: relative;
+    margin-top: 20%;
+    width: 350px;
+    background-color: #ffffff;
+    border: solid black 3px;
+    border-radius: 20px;
+    margin: 20px;
+    background-image: radial-gradient(rgb(112, 3, 3), rgb(78, 1, 1));
+    box-shadow: 3px 3px 3px black;
+
+}
+
+.blogImg{
+    width: 30%;
+    height: auto;
+    margin-left: 87px;
+}
+
+.blogImg img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+}
+

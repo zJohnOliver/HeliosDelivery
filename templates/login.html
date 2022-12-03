@@ -3,23 +3,35 @@
 <meta charset="UTF-8">
 <title>Login</title>
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<meta http-equiv="X-UA-Compatible" content="IE=Edge">
-<link href="/static/login.css" rel="stylesheet">
-
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+<link rel="stylesheet" href="{{ url_for('static', filename='login2.css') }}">
 <script src=""></script>
 
 
 <body>
-    <div class="Principal">
+    <div class="principal">  
 
-        <div class="CampoLogin">
-            <img src="{{ url_for('static', filename='logo.png') }}" class = "logo">
-            <form class="login" action="/login" method="post">
-                <input type="text" placeholder="  Usuário" class="entradas" name="name" required><br>
-                <input type="password" placeholder="  Senha" class="entradas" name="senha" required><br>
-                <input type="submit" value="ENTRAR" class="entrar"><br>
-            </form>
-        </div>
+        <section id="blog">
+            <!--------conteiner--------->
+            <div class="blogConteiner">
+                <!--------butão1---------->
+                
+                
+                <div class="blogBox">
+
+                    <div class="blogImg">
+                        <img class="imgs" src="{{ url_for('static', filename='logo.png') }}" alt="blog">
+                    </div>
+
+                    <form class="login" action="/login" method="post">
+                        <input type="text" placeholder="  Usuário" class="entradas" name="name" required><br>
+                        <input type="password" placeholder="  Senha" class="entradas" name="senha" required><br>
+                        <input type="submit" value="ENTRAR" class="entrar"><br><br><br>
+                    </form>
+
+                </div>
+            </div>
+       </section>
 
     </div>
 

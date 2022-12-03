@@ -41,21 +41,21 @@ def RegistrarSite(marca, volume, quantidade, preco):
     cur.close()
     con.close()
     
-def  AtualizarDados(id):
+def  AtualizarDados(id, marca, volume, quantidade, preco):
     con = sqlite3.connect("deposit.db")
     cur = con.cursor()
     # quantidade | Apresentada no .frame
     # comprado |  Quantia a ser retirada da variável quantidade
     # quantidade -= comprado
     # idI | id automaticamente capturado na hora da alteração
-    
-    vari = input('O que você quer mudar? ')
-    variavel = input("Digite a mudança: ")
+    #vari = input('O que você quer mudar? ')
+    #variavel = input("Digite a mudança: ")
+
     cur.execute(f"""
     UPDATE produtos
-    SET {vari} = ?
+    SET Marca = ?, Volume = ?, Quantidade = ?, Preco = ?
     WHERE id = ?
-    """,(variavel, id))
+    """, (marca.upper(), volume, quantidade, preco, id,))
     con.commit()
 
 def DeletarProduto(id):
@@ -88,18 +88,25 @@ def ConversorMes(iddata):
 
     return meses[int(index)-1]
 
+def MostrarLinha(id):
+    con = sqlite3.connect("deposit.db")
+    cur = con.cursor()
+    linha = cur.execute("SELECT * FROM produtos WHERE id = ?", (id,)).fetchone()
+
+    return linha
+
 #--------------------------------------------------------ÁREA DE VENDA------------------------------------------------------------------------------#
 
-def Vendas(id):
+def Vendas(id, quantidadeRetirar):
     con = sqlite3.connect("deposit.db")
     cur = con.cursor()
     cur.execute("CREATE TABLE IF NOT EXISTS carrinho(id INTEGER NOT NULL PRIMARY KEY, Marca TEXT, Volume TEXT, Quantidade INTEGER, Preco REAL)")
     
     quantidadeAtual = cur.execute("SELECT Quantidade FROM produtos WHERE id = ?" ,(id, )).fetchone()
-    quantidadeRetirar = int(input("Quantidade a retirar: "))
+    #quantidadeRetirar = int(input("Quantidade a retirar: "))
     qtd = (quantidadeAtual[0] - quantidadeRetirar)
+
     while qtd < 0:
-        print(qtd)
         quantidadeRetirar = int(input("Quantidade requisitada maior do que a em estoque: "))
         qtd = (quantidadeAtual[0] - quantidadeRetirar)
         

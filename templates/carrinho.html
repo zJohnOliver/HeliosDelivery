@@ -3,8 +3,26 @@
 {%block title%} Carrinho {%endblock%}
 
 {%block body%}
-    <h1>Carrin</h1>
+    <h1>Lista de compra</h1>
     <hr>
+
+    <h1>Adicionar produto ao carrinho</h1>
+
+    <form action="/adicionar" method="post">
+        
+        <select name="marca" placeholder="Marca" class="Campo">
+            {% for row in dbP %}
+            <option value="{{ row[1] }}">{{ row[1] }}</option>
+            {% endfor %}
+   
+        </select>
+        <label type = "number"></label>
+
+        <br>
+        <a href= "/adicionar/row[0]" ><button class="botao" type="submit" >Adicionar</button></a>
+        
+    </form>
+
     <table class="table">
         <thead>
         <tr>

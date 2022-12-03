@@ -1,20 +1,63 @@
-{%extends "layout.html"%}
-{%block title%} Tela Inicial {%endblock%}
+<!DOCTYPE html>
+<html lang="pt-br">
+<meta charset="UTF-8">
+<title>Tela Inicial</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+<link rel="stylesheet" href="{{ url_for('static', filename='index.css') }}">
+<script src=""></script>
 
-{%block body%} 
-    <h1>Bem-vindo! {{ nome }}</h2>
 
-    <a href="adicionar"><div class="btCadastro">
-        <img class="imgs" src="{{ url_for('static', filename='bCadastrar.png') }}">
-        <h3>Cadastrar produto</h3>
-    </div></a>
+<body>
+    <div class="principal">
+        
+        <header>
+            <a href="/logout"><img src="{{ url_for('static', filename='sair.png') }}" class = "sair"></a>
+            <a href="/carrinho"><img src="{{ url_for('static', filename='carrinho.png') }}" class = "carrinho"></a>
+            <a><img src="{{ url_for('static', filename='logo.png') }}" class = "logo"></a>
+           
+           
+        </header>
+        <section id="blog">
 
-    <a href="/estoque"><div class="btEstoque">
-        <img class="imgs" src="{{ url_for('static', filename='estoque.png') }}">
-        <h3>Estoque</h3>
-    </div></a>
-{%endblock%}
+            <div class="postBlog">
+                <h1 class="display-4 text-center title mt-4">Bem-vindo! Usuário</h2>
+            </div>
+            <!--------conteiner--------->
+            <div class="blogConteiner">
+                <!--------butão1---------->
+                
+                
+                <a href="adicionar"><div class="blogBox">
 
+                    <div class="blogImg">
+                        <img class="imgs" src="{{ url_for('static', filename='bCadastrar.png') }}" alt="blog">
+                    </div>
+
+                    <h3 class="text-center">Cadastrar<br>Produtos</h3>
+
+                </div></a>
+
+                <!--------butão2---------->
+                <a href="/estoque"><div class="blogBox">
+
+                    <div class="blogImg">
+                        <img class="imgs" src="{{ url_for('static', filename='estoque.png') }}" alt="blog">
+                    </div>
+
+                    <h3 class="text-center">Ver<br>Estoque</h3>
+
+                </div></a>
+                
+            </div>
+
+
+        </section>
+
+    </div>
+
+</body>
+</html>
 
 
 

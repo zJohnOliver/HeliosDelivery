@@ -1,18 +1,49 @@
-{%extends "layout.html"%}
+<!DOCTYPE html>
+<html lang="pt-br">
+<meta charset="UTF-8">
+<title>Cadastrar</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+<link rel="stylesheet" href="{{ url_for('static', filename='CadasAtual.css') }}">
+<script src=""></script>
 
-{%block title%} Adicionar {% endblock %}
 
-{%block body%}
-    <h1>Adicionar produto</h1>
-    <form action="/adicionar" method="post">
+<body>
+    <div class="principal">
         
-        <input autocomplete="off" autofocus class="Campo" name="marca" placeholder="Marca" type="text" required><br>
-        <input autocomplete="off" autofocus class="Campo" name="volume" placeholder="Volume (ml)" type="text" required><br>
-        <input autocomplete="off" autofocus class="Campo" name="quantidade" placeholder="Quantidade" type="text" required><br>
-        <input autocomplete="off" autofocus class="Campo" name="preco" placeholder="Preco" type="text" required><br>
-        <!--<div class="form-group">
-            <input autocomplete="off" autofocus class="form-control" name="shares" placeholder="Shares" type="number">
-        </div>-->
-        <button class="botao" type="submit">Adicionar</button>
-    </form>
-{%endblock%}
+        <header>
+            <a href="/logout"><img src="{{ url_for('static', filename='sair.png') }}" class = "sair"></a>
+            <a href="/carrinho"><img src="{{ url_for('static', filename='carrinho.png') }}" class = "carrinho"></a>
+            <a href="/"><img src="{{ url_for('static', filename='logo.png') }}" class = "logo"></a>
+           
+           
+        </header>
+        <section id="blog">
+            <!--------conteiner--------->
+            <div class="blogConteiner">
+                
+                
+                
+                <div class="blogBox">
+
+                    <h3>Cadastrar Produto</h3>
+                    <form action="/adicionar" method="post">
+        
+                        <input autocomplete="off" autofocus class="Campo" name="marca" placeholder="Marca" type="text" required><br>
+                        <input autocomplete="off" autofocus class="Campo" name="volume" placeholder="Volume (ml)" type="text" required><br>
+                        <input autocomplete="off" autofocus class="Campo" name="quantidade" placeholder="Quantidade" type="text" required><br>
+                        <input autocomplete="off" autofocus class="Campo" name="preco" placeholder="Preco" type="text" required><br>
+                        <!--<div class="form-group">
+                            <input autocomplete="off" autofocus class="form-control" name="shares" placeholder="Shares" type="number">
+                        </div>-->
+                        <button class="botao" type="submit">Adicionar</button>
+                    </form>
+
+                </div>
+            </div>
+       </section>
+
+    </div>
+
+</body>
+</html>

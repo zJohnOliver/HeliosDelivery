@@ -24,10 +24,11 @@
                     <td>{{ row[2] }}</td>
                     <td class="td">{{ row[3] }}</td>
                     <td>{{ row[4] }}</td>
-                    <td><a href="/excluir/{{ row[0] }}"><img class="btForm" src="{{ url_for('static', filename='excluir.png') }}"></a></td>
-                    <td><a href=""><img class="btForm" src="{{ url_for('static', filename='editar.png') }}"></a></td>
-                    <td><a href=""><img class="btForm" src="{{ url_for('static', filename='adicionar.png') }}"></a>
-                    <input type="number" placeholder="Quantidade" class="btInput">
+                    <td><a onclick="confirmar()"  href="/excluir/{{ row[0] }}"><img class="btForm" src="{{ url_for('static', filename='excluir.png') }}"></a></td>
+                    <td><a href="/atualizar/{{ row[0] }}"><img class="btForm" src="{{ url_for('static', filename='editar.png') }}"></a></td>
+                    <td><a href="/addcarrinho/{{ row[0] }}"><img class="btForm" src="{{ url_for('static', filename='adicionar.png') }}"></a>
+                        <input type="number" name="quantidade" placeholder="Quantidade" class="btInput">
+                    </form>
                     </td>
                 </tr>
             {% endfor %}
