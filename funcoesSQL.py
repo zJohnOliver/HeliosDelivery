@@ -1,17 +1,21 @@
 import sqlite3
 from flask import render_template
 
+#--------------------------------------------------------PROTOTIPO-----------------------------------------------------------------------------------#
+
 def cur():
     con = sqlite3.connect("deposit.db")
     cur = con.cursor()
     return cur
-
+    
 #con = sqlite3.connect("deposit.db")
 #cur = con.cursor()
 
 #cur.execute("CREATE TABLE IF NOT EXISTS produtos(id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, Marca TEXT, Volume TEXT, Quantidade INTEGER, Preco REAL)")
 
 #res = cur.execute("SELECT name FROM sqlite_master")
+
+#--------------------------------------------------------BANCO PURO----------------------------------------------------------------------------------#
 
 def RegistrarProduto():
     # Se o id já estiver cadastrado, não cadastrar
@@ -37,7 +41,6 @@ def RegistrarSite(marca, volume, quantidade, preco):
     cur.close()
     con.close()
     
-
 def  AtualizarDados(id):
     con = sqlite3.connect("deposit.db")
     cur = con.cursor()
@@ -66,6 +69,18 @@ def DeletarProduto(id):
     cur.close()
     con.close()
 
+
+def MostrarTabela(tabela):
+    con = sqlite3.connect("deposit.db")
+    cur = con.cursor()
+    #print('\nData in produtos table:')
+    data = cur.execute("SELECT * FROM '%s' "%tabela).fetchall()
+    cur.close()
+    con.close()
+    return data
+
+#--------------------------------------------------------ÁREA DE VENDA------------------------------------------------------------------------------#
+
 def Vendas(id):
     con = sqlite3.connect("deposit.db")
     cur = con.cursor()
@@ -83,29 +98,6 @@ def Vendas(id):
         escolhas = cur.execute("SELECT id,Marca,Volume,Quantidade,Preco FROM produtos WHERE id = ?",(id,)).fetchone()
         cur.execute("INSERT OR REPLACE INTO carrinho (id,Marca,Volume,Quantidade,Preco) VALUES (?,?,?,?,?)", (escolhas[0],escolhas[1],escolhas[2],quantidadeRetirar,escolhas[4]))
         con.commit()
-
-def Montante():
-    con = sqlite3.connect("deposit.db")
-    cur = con.cursor()
-    montanteTotal = 0
-    montante = cur.execute("SELECT Quantidade,Preco FROM carrinho").fetchall()
-    for i in range(len(montante)):
-        montanteTotal += montante[i][0]*montante[i][1]
-    cur.close()
-    con.close()
-    return montanteTotal
-
-def MostrarTabela(tabela):
-    con = sqlite3.connect("deposit.db")
-    cur = con.cursor()
-    #print('\nData in produtos table:')
-    data = cur.execute("SELECT * FROM '%s' "%tabela).fetchall()
-    cur.close()
-    con.close()
-    return data
-
-def erro(mensagem):
-    return render_template("erro.html", mensagem = mensagem)
 
 def ConfirmarCompra():
     import datetime
@@ -134,6 +126,25 @@ def ConfirmarCompra():
         cur.execute("DELETE FROM carrinho WHERE id = ?", (allIDS[i][0],))
     con.commit()
 
+def Montante():
+    con = sqlite3.connect("deposit.db")
+    cur = con.cursor()
+    montanteTotal = 0
+    montante = cur.execute("SELECT Quantidade,Preco FROM carrinho").fetchall()
+    for i in range(len(montante)):
+        montanteTotal += montante[i][0]*montante[i][1]
+    cur.close()
+    con.close()
+    return montanteTotal
+
+def Desconto(MontanteTotal, tipo, desconto):
+    if tipo == 1:
+        MontanteTotal - MontanteTotal*desconto/100
+    else:
+        MontanteTotal - desconto
+
+#--------------------------------------------------------NICOLAS QUE FEZ------------------------------------------------------------------------------#
+
 def Marcas():
     con = sqlite3.connect("deposit.db")
     cur = con.cursor()
@@ -157,6 +168,11 @@ def Quantidade(marca):
     cur.close()
     con.close()
     return quant
+
+def erro(mensagem):
+    return render_template("erro.html", mensagem = mensagem)
+
+#--------------------------------------------------------SUGESTÕES-----------------------------------------------------------------------------------#
 
 # Registro de produtos
 # Registro de vendas
