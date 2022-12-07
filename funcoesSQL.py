@@ -101,19 +101,17 @@ def Vendas(id, quantidadeRetirar):
     con = sqlite3.connect("deposit.db")
     cur = con.cursor()
     cur.execute("CREATE TABLE IF NOT EXISTS carrinho(id INTEGER NOT NULL PRIMARY KEY, Marca TEXT, Volume TEXT, Quantidade INTEGER, Preco REAL)")
-    
-    quantidadeAtual = cur.execute("SELECT Quantidade FROM produtos WHERE id = ?" ,(id, )).fetchone()
+    quantidadeAtual = cur.execute("SELECT Quantidade FROM produtos WHERE Marca = ?" ,(id, )).fetchone()
     #quantidadeRetirar = int(input("Quantidade a retirar: "))
     qtd = (quantidadeAtual[0] - quantidadeRetirar)
-
-    while qtd < 0:
-        quantidadeRetirar = int(input("Quantidade requisitada maior do que a em estoque: "))
-        qtd = (quantidadeAtual[0] - quantidadeRetirar)
-        
-    if quantidadeRetirar > 0:
-        escolhas = cur.execute("SELECT id,Marca,Volume,Quantidade,Preco FROM produtos WHERE id = ?",(id, )).fetchone()
-        cur.execute("INSERT OR REPLACE INTO carrinho (id,Marca,Volume,Quantidade,Preco) VALUES (?, ?, ?, ?, ?)", (escolhas[0], escolhas[1], escolhas[2], quantidadeRetirar, escolhas[4]))
-        con.commit()
+    
+    if qtd < 0:
+        return
+    else:
+        if quantidadeRetirar > 0:
+            escolhas = cur.execute("SELECT id,Marca,Volume,Quantidade,Preco FROM produtos WHERE Marca = ?",(id, )).fetchone()
+            cur.execute("INSERT OR REPLACE INTO carrinho (id,Marca,Volume,Quantidade,Preco) VALUES (?, ?, ?, ?, ?)", (escolhas[0], escolhas[1], escolhas[2], quantidadeRetirar, escolhas[4]))
+            con.commit()
 
 def ConfirmarCompra():
     import datetime
@@ -139,7 +137,7 @@ def ConfirmarCompra():
         try:
             cur.execute("INSERT INTO vendasmensais (iddata, Mes, id,Marca,Volume,Quantidade,PrecoUnit,PrecoTotal) VALUES (?, ?, ?, ?, ?, ?, ?, ?)", (iddata, data, vendas[0], vendas[1], vendas[2], vendas[3], vendas[4], precoT))
 
-        except sqlite3.IntegrityError as error:
+        except sqlite3.IntegrityError as error: 
             cur.execute("UPDATE vendasmensais SET Quantidade = Quantidade + ?, PrecoUnit = ?, PrecoTotal = PrecoTotal + ? WHERE iddata = ? ", (vendas[3], vendas[4], precoT, iddata))
             
         cur.execute("DELETE FROM carrinho WHERE id = ?", (allIDS[i][0], ))
@@ -159,12 +157,12 @@ def Montante():
 def Desconto(valor, tipo, desconto):
 
     if tipo == 1:
-        return valor - valor*(desconto/100)
+        return valor*(desconto/100)
         
     else:
-        return valor - desconto
+        return desconto
 
-#--------------------------------------------------------NICOLAS QUE FEZ------------------------------------------------------------------------------#
+#--------------------------------------------------------GABRIEL QUE FEZ------------------------------------------------------------------------------#
 
 def Marcas():
     con = sqlite3.connect("deposit.db")

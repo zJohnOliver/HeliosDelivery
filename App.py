@@ -41,11 +41,6 @@ def estoque():
    if request.method == "GET":
       db = MostrarTabela("produtos")
       return render_template("estoque.html", db = db)
-   else:
-      print('hello')
-      global XYz
-      XYz = request.form.get("quantidade")
-      return redirect("addcarrinho", quantidade = XYz)
 
 
 @app.route("/excluir/<id_produto>", methods=["GET", "POST"])
@@ -80,10 +75,11 @@ def adicionar():
 def atualizar(id_produto):
    if request.method == "GET":
       idproduto = id_produto
-      marca = MostrarLinha(id_produto)[1]
-      volume = MostrarLinha(id_produto)[2]
-      quantidade = MostrarLinha(id_produto)[3]
-      preco = MostrarLinha(id_produto)[4]
+      x = MostrarLinha(id_produto)
+      marca = x[1]
+      volume = x[2]
+      quantidade = x[3]
+      preco = x[4]
       return render_template("atualizar.html", marca=marca, preco=preco, volume=volume, quantidade=quantidade, id_produto = idproduto)
 
    if request.method == "POST":   
@@ -100,15 +96,17 @@ def atualizar(id_produto):
 @login_required
 def carrinho():
    db = MostrarTabela("carrinho")
+   dbP = MostrarTabela("produtos")
    total = Montante()
-   return render_template("carrinho.html", db = db, montante=total)
+   return render_template("carrinho.html", db = db, montante=total, dbP = dbP)
 
-@app.route("/addcarrinho/<id_produto>", methods=["GET", "POST"])
+@app.route("/addcarrinho", methods=["GET", "POST"])
 @login_required
-def adccarrinho(id_produto):
-   if request.method == "GET":
-      
-      Vendas(id_produto, XYz)
+def adccarrinho():
+   if request.method == "POST":
+      qtd = request.form.get("Quantidade")
+      marca = request.form.get("marca")
+      Vendas(marca, int(qtd))
       
    return redirect("/carrinho")
 
