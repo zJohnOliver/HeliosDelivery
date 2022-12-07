@@ -2,7 +2,7 @@ import sqlite3
 from flask import Flask, redirect, render_template, request, session
 from flask_session import Session
 from funcaopessoas import verificacao
-from funcoesSQL import MostrarTabela, DeletarProduto, Marcas, RegistrarSite, Montante, Vendas, MostrarLinha, AtualizarDados
+from funcoesSQL import MostrarTabela, DeletarProduto, Marcas, RegistrarSite, Montante, Vendas, MostrarLinha, AtualizarDados, ConfirmarCompra, DeletarCarrinho, Desconto
 from auxiliares import login_required
 #conn = sqlite3.connect('produtos.db')
 #cursor = conn.cursor()
@@ -47,14 +47,15 @@ def estoque():
 @login_required
 def excluir(id_produto):
    if request.method == "GET":
-      DeletarProduto(id_produto)
-   #else:
-      #marca = request.form.get("marca")
-      #DeletarProduto(id_produto)
-      #vol = request.form.get("marca")
-      #quantidade = request.form.get("marca")
-      #preco = request.form.get("marca")
+      DeletarProduto(id_produto, "produtos")
    return redirect("/estoque")
+
+@app.route("/excluirC/<id_produto>", methods=["GET", "POST"])
+@login_required
+def excluirC(id_produto):
+   if request.method == "GET":
+      DeletarProduto(id_produto, "carrinho")
+   return redirect("/carrinho")
 
 @app.route("/adicionar", methods=["GET", "POST"])
 @login_required
@@ -97,8 +98,26 @@ def atualizar(id_produto):
 def carrinho():
    db = MostrarTabela("carrinho")
    dbP = MostrarTabela("produtos")
-   total = Montante()
-   return render_template("carrinho.html", db = db, montante=total, dbP = dbP)
+   global totalC 
+   totalC = Montante()
+
+   if request.method == "POST":
+      desconto = request.form.get("desconto")
+      tipo = request.form.get("tipo")
+      str(tipo)
+      if tipo == "on":
+         tipo = 1
+
+      if desconto == '':
+         print(totalC)
+         return render_template("carrinho.html", db = db, montante=totalC, dbP = dbP)
+
+      else:
+         x = totalC - Desconto(totalC,tipo,int(desconto))
+
+         return render_template("carrinho.html", db = db, montante=x, dbP = dbP)
+   else:
+      return render_template("carrinho.html", db = db, montante=totalC, dbP = dbP)
 
 @app.route("/addcarrinho", methods=["GET", "POST"])
 @login_required
@@ -115,6 +134,16 @@ def logout():
    session["name"] = None
    return redirect("/")
 
+@app.route("/confirma", methods=["GET", "POST"])
+def confirma():
+   ConfirmarCompra()
+
+   return redirect("/estoque")
+
+@app.route("/cancelarCompra", methods=["GET", "POST"])
+def cancelarCompra():
+   DeletarCarrinho()
+   return redirect("/carrinho")
 
 #ativar quando o site for ao Ar
 #if __name__ == "__main__":

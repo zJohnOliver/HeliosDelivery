@@ -3,11 +3,6 @@ from flask import render_template
 
 #--------------------------------------------------------PROTOTIPO-----------------------------------------------------------------------------------#
 
-def cur():
-    con = sqlite3.connect("deposit.db")
-    cur = con.cursor()
-    return cur
-
 #con = sqlite3.connect("deposit.db")
 #cur = con.cursor()
 
@@ -58,13 +53,13 @@ def  AtualizarDados(id, marca, volume, quantidade, preco):
     """, (marca.upper(), volume, quantidade, preco, id,))
     con.commit()
 
-def DeletarProduto(id):
+def DeletarProduto(id, tabela):
     con = sqlite3.connect("deposit.db")
     cur = con.cursor()
     cur.execute("""
-    DELETE FROM produtos
+    DELETE FROM '%s'
     WHERE id = ?
-    """, (id,))
+    """%tabela,(id,))
     con.commit()
     cur.close()
     con.close()
@@ -95,6 +90,15 @@ def MostrarLinha(id):
 
     return linha
 
+def DeletarCarrinho():
+    con = sqlite3.connect("deposit.db")
+    cur = con.cursor()
+    cur.execute("""
+    DELETE FROM carrinho
+    """)
+    con.commit()
+    cur.close()
+    con.close()
 #--------------------------------------------------------ÁREA DE VENDA------------------------------------------------------------------------------#
 
 def Vendas(id, quantidadeRetirar):
@@ -131,8 +135,7 @@ def ConfirmarCompra():
 
         
         iddata = (f"{x.year}{mes}{vendas[0]}") #<- Criando um id junto com a data para permitir repetições com meses diferentes na mesma tabela 
-        
-        precoT = vendas[3] * vendas[4] #<- Preço total da compra para o a tabela de registro de vendas
+        precoT = (vendas[3] * vendas[4]) #<- Preço total da compra para o a tabela de registro de vendas
 
         try:
             cur.execute("INSERT INTO vendasmensais (iddata, Mes, id,Marca,Volume,Quantidade,PrecoUnit,PrecoTotal) VALUES (?, ?, ?, ?, ?, ?, ?, ?)", (iddata, data, vendas[0], vendas[1], vendas[2], vendas[3], vendas[4], precoT))
@@ -142,6 +145,8 @@ def ConfirmarCompra():
             
         cur.execute("DELETE FROM carrinho WHERE id = ?", (allIDS[i][0], ))
     con.commit()
+    cur.close()
+    con.close()
 
 def Montante():
     con = sqlite3.connect("deposit.db")

@@ -14,7 +14,6 @@
             <th scope="col">Preço</th>
             <th scope="col">Excluir</th>
             <th scope="col">Editar</th>
-            <th scope="col">Add. carrinho</th>
         </tr>
         </thead>
         <tbody>
@@ -26,8 +25,6 @@
                     <td>{{ row[4] }}</td>
                     <td><a onclick="confirmar()"  href="/excluir/{{ row[0] }}"><img class="btForm" src="{{ url_for('static', filename='excluir.png') }}"></a></td>
                     <td><a href="/atualizar/{{ row[0] }}"><img class="btForm" src="{{ url_for('static', filename='editar.png') }}"></a></td>
-                    <td><a href="/addcarrinho/{{ row[0] }}"><img class="btForm" src="{{ url_for('static', filename='adicionar.png') }}"></a>
-                        <input type="number" name="quantidade" placeholder="Quantidade" class="btInput">
                     </form>
                     </td>
                 </tr>

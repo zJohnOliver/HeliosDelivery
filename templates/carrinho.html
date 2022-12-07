@@ -30,7 +30,7 @@
             <th scope="col">Volume (ml)</th>
             <th scope="col">Quantidade</th>
             <th scope="col">Preço Unit.</th>
-            <th scope="col">Remover carrinho</th>
+            <th scope="col">Remover produto</th>
         </tr>
         </thead>
         <tbody>
@@ -40,21 +40,22 @@
                     <td>{{ row[2] }}</td>
                     <td class="td">{{ row[3] }}</td>
                     <td>{{ row[4] }}</td>
-                    <td><a href="/excluir"><img class="btForm" src="{{ url_for('static', filename='excluir.png') }}"></a>
-                    <input type="number" placeholder="Quantidade" class="btInput" required>
-                    </td>
+                    <td><a href="/excluirC/{{ row[0] }}"><img class="btForm" src="{{ url_for('static', filename='excluir.png') }}"></a></td>
                 </tr>
             {% endfor %}
         </tbody>
         <tfoot>
             <td></td>
             <td></td>
+    <form action ="/carrinho" method="post">
             <th scope="1">TOTAL</th>
             <td scope="1">{{ montante }}</td>
-            <td scope="1"></td>
+            <td><input name = "desconto" placeholder="Desconto" id = "desconto" type="number"></input>
+            <input name = "tipo" id = "tipo" type = "checkbox">%</input></td>
+    </form>
         </tfoot>
     </table>
-    <button class="botao" type="submit">Confirmar Compra</button>
-    <button class="botao" type="submit">Limpar Carrinho</button>
+    <a href="/confirma"><button class="botao" type = "submit">Confirmar compra</button></a>
+    <a href="/cancelarCompra"><button class="botao" type = "submit">Limpar carrinho</button></a>
 
 {%endblock%}
