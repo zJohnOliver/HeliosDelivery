@@ -1,9 +1,10 @@
 import sqlite3
-from flask import Flask, redirect, render_template, request, session
+from flask import Flask, redirect, render_template, request, session, flash
 from flask_session import Session
 from funcaopessoas import verificacao
-from funcoesSQL import MostrarTabela, DeletarProduto, Marcas, RegistrarSite, Montante, Vendas, MostrarLinha, AtualizarDados, ConfirmarCompra, DeletarCarrinho, Desconto
+from funcoesSQL import MostrarTabela, DeletarProduto, formatarVolume, RegistrarSite, Montante, Vendas, MostrarLinha, AtualizarDados, ConfirmarCompra, DeletarCarrinho, Desconto, formatarNum
 from auxiliares import login_required
+
 #conn = sqlite3.connect('produtos.db')
 #cursor = conn.cursor()
 
@@ -48,6 +49,7 @@ def estoque():
 def excluir(id_produto):
    if request.method == "GET":
       DeletarProduto(id_produto, "produtos")
+      flash("Produto excluído!")
    return redirect("/estoque")
 
 @app.route("/excluirC/<id_produto>", methods=["GET", "POST"])
@@ -67,7 +69,10 @@ def adicionar():
       vol = request.form.get("volume")
       quantidade = request.form.get("quantidade")
       preco = request.form.get("preco")
+      vol = formatarVolume(vol)
+      preco = formatarNum(preco)
       RegistrarSite(marca, vol, quantidade, preco)
+      flash("Adicionado!")   
       return redirect("/adicionar")
 
 
@@ -87,12 +92,13 @@ def atualizar(id_produto):
       updMarca = request.form.get("Marca")
       updVolume = request.form.get("Volume")
       updQuantidade = request.form.get("Quantidade")
-      updPreco = request.form.get("Preco")   
+      updPreco = request.form.get("Preco")
+      updPreco = formatarNum(updPreco)
+      updVolume = formatarVolume(updVolume)   
       AtualizarDados(id_produto, updMarca, updVolume, updQuantidade, updPreco)
+      flash("Atualizado!")
       return redirect("/estoque")
       
-
-
 @app.route("/carrinho", methods=["GET", "POST"])
 @login_required
 def carrinho():
@@ -144,6 +150,13 @@ def confirma():
 def cancelarCompra():
    DeletarCarrinho()
    return redirect("/carrinho")
+
+@app.route("/vendas", methods=["GET", "POST"])
+def vendas():
+   if request.method == "GET":
+      db = MostrarTabela("vendasmensais")
+      return render_template("vendas.html", db = db)
+
 
 #ativar quando o site for ao Ar
 #if __name__ == "__main__":

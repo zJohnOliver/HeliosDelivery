@@ -14,10 +14,16 @@
         <header>
             <a href="/logout"><img src="{{ url_for('static', filename='sair.png') }}" class = "sair"></a>
             <a href="/carrinho"><img src="{{ url_for('static', filename='carrinho.png') }}" class = "carrinho"></a>
+            <a href="/estoque"><img src="{{ url_for('static', filename='icon_estoque.png') }}" class="carrinho"></a>
             <a href="/"><img src="{{ url_for('static', filename='logo.png') }}" class = "logo"></a>
            
            
         </header>
+        {% if get_flashed_messages() %}
+            <div class="alert alert-primary border text-center" role="alert">
+                {{ get_flashed_messages() | join(" ") }}
+            </div>
+        {% endif %}
         <section id="blog">
             <!--------conteiner--------->
             <div class="blogConteiner">
@@ -38,7 +44,9 @@
                         </div>-->
                         <button class="botao" type="submit">Adicionar</button>
                     </form>
-
+                    <form action="/">
+                        <button class="botaovoltar">Voltar</button>
+                    </form>
                 </div>
             </div>
        </section>

@@ -99,6 +99,51 @@ def DeletarCarrinho():
     con.commit()
     cur.close()
     con.close()
+
+def formatarNum(x):
+    str(x)
+    y = []
+
+    for i in range(len(x)):
+        if x[i] in "0123456789,.":
+            y.append(x[i])
+    y = ''.join(y)
+
+    virgula = y.count(',')
+
+    y = y.replace(',' , ".", (virgula))
+
+    ponto = y.count('.')
+
+    y = y.replace('.', '' , (ponto-1))
+
+    y = y.replace("," , ".")
+    try:
+        return f"{float(y):.2f}"
+    except ValueError as error:
+        return 0
+    
+def formatarVolume(x):
+    try:
+        if "L" or "ml" in x:
+            if "ml" in x:
+                x = int(x.removesuffix("ml"))
+            elif "L" in x:
+                x = int(x.removesuffix("L"))*1000
+        x = int(x)
+
+        if x >= 1000:
+            vol = x/1000
+            volR = int(vol)
+            if vol == volR:
+                return str(f"{vol:.0f}L")
+            else:
+                vol = str(vol).replace(".",",")
+            return vol+"L"
+        else:
+            return str(x)+"ml"
+    except ValueError as error:
+        return x
 #--------------------------------------------------------ÁREA DE VENDA------------------------------------------------------------------------------#
 
 def Vendas(id, quantidadeRetirar):

@@ -74,6 +74,21 @@ header{
     font-weight: bold;
     background-image: radial-gradient(rgb(48, 47, 47), rgb(60, 58, 58));
 }
+.botaovoltar{
+    position: relative;
+    width: 300px;
+    height: 50px;
+    margin-top: 0px;
+    margin-bottom: 20px;
+    margin-left: 20px ;
+    border-radius: 10px;
+    font-size: 20px;
+    border: 2px solid black;
+    color: white;
+    font-weight: bold;
+    background-image: radial-gradient(rgb(48, 47, 47), rgb(60, 58, 58));
+}
+
 
 .imgs{
     width: 150px;
@@ -138,5 +153,9 @@ a{
     height: 100%;
     object-fit: cover;
     object-position: center;
+}
+
+.container{
+    margin: 30px;
 }
 

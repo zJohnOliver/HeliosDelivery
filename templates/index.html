@@ -12,20 +12,20 @@
     <div class="principal">
         
         <header>
-            <a href="/logout"><img src="{{ url_for('static', filename='sair.png') }}" class = "sair"></a>
-            <a href="/carrinho"><img src="{{ url_for('static', filename='carrinho.png') }}" class = "carrinho"></a>
+            <a href="/logout"><img src="{{ url_for('static', filename='sair.png') }}" class="sair"></a>
+            <a href="/carrinho"><img src="{{ url_for('static', filename='carrinho.png') }}" class="carrinho"></a>
+            <a href="/estoque"><img src="{{ url_for('static', filename='icon_estoque.png') }}" class="carrinho"></a>
             <a><img src="{{ url_for('static', filename='logo.png') }}" class = "logo"></a>
-           
-           
         </header>
+        
         <section id="blog">
 
             <div class="postBlog">
-                <h1 class="display-4 text-center title mt-4">Bem-vindo! Usuário</h2>
+                <h1 class="display-4 text-center title mt-4">Bem-vindo!</h2>
             </div>
             <!--------conteiner--------->
             <div class="blogConteiner">
-                <!--------butão1---------->
+                <!--------botão estoque---------->
                 
                 
                 <a href="adicionar"><div class="blogBox">
@@ -46,6 +46,17 @@
                     </div>
 
                     <h3 class="text-center">Ver<br>Estoque</h3>
+
+                </div></a>
+
+                <!--------butão3---------->
+                <a href="/vendas"><div class="blogBox">
+
+                    <div class="blogImg">
+                        <img class="imgs" src="{{ url_for('static', filename='vendas.png') }}" alt="blog">
+                    </div>
+
+                    <h3 class="text-center">Ver<br>Vendas</h3>
 
                 </div></a>
                 

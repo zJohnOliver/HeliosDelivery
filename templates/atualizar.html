@@ -14,15 +14,19 @@
         <header>
             <a href="/logout"><img src="{{ url_for('static', filename='sair.png') }}" class = "sair"></a>
             <a href="/carrinho"><img src="{{ url_for('static', filename='carrinho.png') }}" class = "carrinho"></a>
+            <a href="/estoque"><img src="{{ url_for('static', filename='icon_estoque.png') }}" class="carrinho"></a>
             <a href="/"><img src="{{ url_for('static', filename='logo.png') }}" class = "logo"></a>
            
            
         </header>
+        {% if get_flashed_messages() %}
+            <div class="alert alert-primary border text-center" role="alert">
+                {{ get_flashed_messages() | join(" ") }}
+            </div>
+        {% endif %}
         <section id="blog">
             <!--------conteiner--------->
             <div class="blogConteiner">
-                
-                
                 
                 <div class="blogBox">
 
@@ -35,6 +39,9 @@
                         <input value="{{ preco }}" autofocus class="Campo" id="Preco" name="Preco" placeholder="Preco" type="text" required><br>
                         
                         <button onclick="confirmar()" class="botao" type="submit">Atualizar</button>
+                    </form>
+                    <form action="/estoque">
+                        <button class="botaovoltar">Voltar</button>
                     </form>
 
                 </div>
