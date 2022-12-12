@@ -183,10 +183,10 @@ def ConfirmarCompra():
         precoT = (vendas[3] * vendas[4]) #<- Preço total da compra para o a tabela de registro de vendas
 
         try:
-            cur.execute("INSERT INTO vendasmensais (iddata, Mes, id,Marca,Volume,Quantidade,PrecoUnit,PrecoTotal) VALUES (?, ?, ?, ?, ?, ?, ?, ?)", (iddata, data, vendas[0], vendas[1], vendas[2], vendas[3], vendas[4], precoT))
+            cur.execute("INSERT INTO vendasmensais (iddata, Mes, id,Marca,Volume,Quantidade,PrecoUnit,PrecoTotal) VALUES (?, ?, ?, ?, ?, ?, ?, ?)", (iddata, data, vendas[0], vendas[1], vendas[2], vendas[3], vendas[4], f'({precoT:.2f})'))
 
         except sqlite3.IntegrityError as error: 
-            cur.execute("UPDATE vendasmensais SET Quantidade = Quantidade + ?, PrecoUnit = ?, PrecoTotal = PrecoTotal + ? WHERE iddata = ? ", (vendas[3], vendas[4], precoT, iddata))
+            cur.execute("UPDATE vendasmensais SET Quantidade = Quantidade + ?, PrecoUnit = ?, PrecoTotal = PrecoTotal + ? WHERE iddata = ? ", (vendas[3], vendas[4], f'({precoT:.2f})', iddata))
             
         cur.execute("DELETE FROM carrinho WHERE id = ?", (allIDS[i][0], ))
     con.commit()
