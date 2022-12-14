@@ -5,9 +5,6 @@ from funcaopessoas import verificacao
 from funcoesSQL import MostrarTabela, DeletarProduto, formatarVolume, RegistrarSite, Montante, Vendas, MostrarLinha, AtualizarDados, ConfirmarCompra, DeletarCarrinho, Desconto, formatarNum
 from auxiliares import login_required
 
-#conn = sqlite3.connect('produtos.db')
-#cursor = conn.cursor()
-
 app = Flask(__name__)
 app.config["SESSION_PERMANENT"] = False
 app.config["SESSION_TYPE"] = "filesystem"

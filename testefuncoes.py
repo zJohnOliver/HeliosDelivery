@@ -1,6 +1,8 @@
-from funcoesSQL import MostrarTabela, Marcas, DeletartProduto, RegistrarProduto
+from funcoesSQL import MostrarTabela, Marcas, RegistrarProduto
+import sqlite3
 
-print(Marcas())
-marca = input("Marca: ")
-DeletartProduto(id(marca))
-print(Marcas())
+conn = sqlite3.connect('deposit.db')
+cursor = conn.cursor()
+
+cursor.execute("DELETE FROM vendasmensais")
+conn.commit()

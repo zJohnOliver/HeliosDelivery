@@ -1,32 +1,8 @@
 import sqlite3
-from flask import render_template
-
-#--------------------------------------------------------PROTOTIPO-----------------------------------------------------------------------------------#
-
-#con = sqlite3.connect("deposit.db")
-#cur = con.cursor()
-
-#cur.execute("CREATE TABLE IF NOT EXISTS produtos(id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, Marca TEXT, Volume TEXT, Quantidade INTEGER, Preco REAL)")
-
-#res = cur.execute("SELECT name FROM sqlite_master")
 
 #--------------------------------------------------------BANCO PURO----------------------------------------------------------------------------------#
 
-def RegistrarProduto():
-    # Se o id já estiver cadastrado, não cadastrar
-    con = sqlite3.connect("deposit.db")
-    cur = con.cursor()
-    marca = str(input("Marca: ")).capitalize()
-    volume = float(input("Volume: "))
-    quantidade = int(input("Quantidade: "))
-    precoUnit = float(input("Preço Unitário: "))
-    cur.execute("""INSERT INTO produtos (Marca, Volume, Quantidade, Preco) VALUES
-            (?,?,?,?)
-    """,(marca, volume, quantidade, precoUnit))
-    con.commit()
-
 def RegistrarSite(marca, volume, quantidade, preco):
-    # Se o id já estiver cadastrado, não cadastrar
     con = sqlite3.connect("deposit.db")
     cur = con.cursor()
     cur.execute("""INSERT INTO produtos (Marca, Volume, Quantidade, Preco) VALUES
@@ -39,13 +15,6 @@ def RegistrarSite(marca, volume, quantidade, preco):
 def  AtualizarDados(id, marca, volume, quantidade, preco):
     con = sqlite3.connect("deposit.db")
     cur = con.cursor()
-    # quantidade | Apresentada no .frame
-    # comprado |  Quantia a ser retirada da variável quantidade
-    # quantidade -= comprado
-    # idI | id automaticamente capturado na hora da alteração
-    #vari = input('O que você quer mudar? ')
-    #variavel = input("Digite a mudança: ")
-
     cur.execute(f"""
     UPDATE produtos
     SET Marca = ?, Volume = ?, Quantidade = ?, Preco = ?
@@ -68,7 +37,6 @@ def DeletarProduto(id, tabela):
 def MostrarTabela(tabela):
     con = sqlite3.connect("deposit.db")
     cur = con.cursor()
-    #print('\nData in produtos table:')
     data = cur.execute("SELECT * FROM '%s' "%tabela).fetchall()
     cur.close()
     con.close()
@@ -109,15 +77,12 @@ def formatarNum(x):
             y.append(x[i])
     y = ''.join(y)
 
-    virgula = y.count(',')
-
-    y = y.replace(',' , ".", (virgula))
+    y = y.replace(',' , ".")
 
     ponto = y.count('.')
 
     y = y.replace('.', '' , (ponto-1))
 
-    y = y.replace("," , ".")
     try:
         return f"{float(y):.2f}"
     except ValueError as error:
@@ -127,9 +92,9 @@ def formatarVolume(x):
     try:
         if "L" or "ml" in x:
             if "ml" in x:
-                x = int(x.removesuffix("ml"))
+                x = int(x.replace("ml",''))
             elif "L" in x:
-                x = int(x.removesuffix("L"))*1000
+                x = int(x.replace("L",""))*1000
         x = int(x)
 
         if x >= 1000:
@@ -183,10 +148,10 @@ def ConfirmarCompra():
         precoT = (vendas[3] * vendas[4]) #<- Preço total da compra para o a tabela de registro de vendas
 
         try:
-            cur.execute("INSERT INTO vendasmensais (iddata, Mes, id,Marca,Volume,Quantidade,PrecoUnit,PrecoTotal) VALUES (?, ?, ?, ?, ?, ?, ?, ?)", (iddata, data, vendas[0], vendas[1], vendas[2], vendas[3], vendas[4], f'({precoT:.2f})'))
+            cur.execute("INSERT INTO vendasmensais (iddata, Mes, id,Marca,Volume,Quantidade,PrecoUnit,PrecoTotal) VALUES (?, ?, ?, ?, ?, ?, ?, ?)", (iddata, data, vendas[0], vendas[1], vendas[2], vendas[3], vendas[4], f'{precoT:.2f}'))
 
         except sqlite3.IntegrityError as error: 
-            cur.execute("UPDATE vendasmensais SET Quantidade = Quantidade + ?, PrecoUnit = ?, PrecoTotal = PrecoTotal + ? WHERE iddata = ? ", (vendas[3], vendas[4], f'({precoT:.2f})', iddata))
+            cur.execute("UPDATE vendasmensais SET Quantidade = Quantidade + ?, PrecoUnit = ?, PrecoTotal = PrecoTotal + ? WHERE iddata = ? ", (vendas[3], vendas[4], f'{precoT:.2f}', iddata))
             
         cur.execute("DELETE FROM carrinho WHERE id = ?", (allIDS[i][0], ))
     con.commit()
@@ -214,36 +179,4 @@ def Desconto(valor, tipo, desconto):
 
 #--------------------------------------------------------GABRIEL QUE FEZ------------------------------------------------------------------------------#
 
-def Marcas():
-    con = sqlite3.connect("deposit.db")
-    cur = con.cursor()
-    marcas = cur.execute('''SELECT Marca FROM produtos GROUP BY Marca''').fetchall()
-    cur.close()
-    con.close()
-    return marcas
 
-def id(marca):
-    con = sqlite3.connect("deposit.db")
-    cur = con.cursor()
-    id = cur.execute('''SELECT id FROM produtos WHERE Marca = ?''', (marca,)).fetchone()
-    cur.close()
-    con.close()
-    return id[0]
-
-def Quantidade(marca):
-    con = sqlite3.connect("deposit.db")
-    cur = con.cursor()
-    quant = cur.execute('''SELECT Quantidade FROM produtos WHERE Marca = ? GROUP BY Quantidade''', (marca,)).fetchall()
-    cur.close()
-    con.close()
-    return quant
-
-def erro(mensagem):
-    return render_template("erro.html", mensagem = mensagem)
-
-#--------------------------------------------------------SUGESTÕES-----------------------------------------------------------------------------------#
-
-# Registro de produtos
-# Registro de vendas
-# Aplicação de desconto personalizado
-# Calculadora simples

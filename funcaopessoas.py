@@ -1,10 +1,4 @@
 import sqlite3
-
-conn = sqlite3.connect('produtos.db')
-cursor = conn.cursor()
-
-
-
 def verificacao(email,senha):
 
     conn = sqlite3.connect('usuario.db')
@@ -25,6 +19,8 @@ def verificacao(email,senha):
         return False
 
 def cadastroPessoa(email,senha):
+    conn = sqlite3.connect('produtos.db')
+    cursor = conn.cursor()
     cursor.execute(f"""
     INSERT INTO clientes (email, senha)
     VALUES (?, ?)
